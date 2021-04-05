@@ -1,0 +1,21 @@
+.userinfo{
+    margin-left: 20px;
+    img{
+        height: 35px;
+        border-radius: 25px;
+        padding: 2px;
+    }
+}
+.loginbtncontainer{
+    padding-top: 6px;
+    margin-left: 30px;
+    button{
+        padding: 7px;
+        min-width: 100px;
+        border: none;
+        border-radius: 4px;
+        background: #ffffff;
+        cursor: pointer;
+        outline: none;
+    }
+}
