@@ -1,0 +1,30 @@
+$borderColor:#ffffff;
+
+.searchmaincomponent{
+    display: flex;
+    border: 1px solid $borderColor;
+    padding: 10px;
+    min-width: 50%;
+    justify-content: space-between;
+    border-radius: 6px;
+    .searchinputcontainer{
+        min-width: 80%;
+        input{
+            width: 100%;
+            outline: none;
+            border: none;
+            background: transparent;
+            caret-color: $borderColor;
+            color: $borderColor;
+            
+        }
+    }
+    .searchbutton{
+        min-width: 20%;
+        text-align: center;
+        i{
+            font-size: 20px;
+            color: $borderColor;
+        }
+    }
+}

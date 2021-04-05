@@ -1,0 +1,18 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: #6ccca1;
+    & .headingcontainer{
+        padding-left: 30px;
+        width: 50%;
+        img{
+            width: 300px;
+        }
+    }
+    & .searchcontainer{
+        display: flex;
+        width: 50%;
+        justify-content: center;
+    }
+}
