@@ -5,7 +5,7 @@ export const Search: React.FC = (): React.ReactElement => {
   return (
     <div className={styles.searchmaincomponent}>
       <div className={styles.searchinputcontainer}>
-        <input />
+        <input placeholder="Search Notes..." />
       </div>
       <div className={styles.searchbutton}>
         <i className="fa fa-search" />

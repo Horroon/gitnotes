@@ -6,7 +6,6 @@ $borderColor:#ffffff;
     padding: 10px;
     padding-top: 7px;
     min-width: 50%;
-    height: 13px;
     justify-content: space-between;
     border-radius: 6px;
     margin-top: 4px;
@@ -20,7 +19,9 @@ $borderColor:#ffffff;
             background: transparent;
             caret-color: $borderColor;
             color: $borderColor;
-            
+            &::placeholder{
+                color: $borderColor;
+            }
         }
     }
     .searchbutton{

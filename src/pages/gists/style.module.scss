@@ -1,0 +1,55 @@
+.gitscontainer{
+    .gridbuttoncontainer{
+        width: 100%;
+        padding: 20px;
+        padding-bottom: 10px;
+        text-align: end;
+        span{
+            font-size: 25;
+            color: #b6c7df;
+        }
+        i {
+            font-size: 20px;
+            color: #e4e4e4;
+            padding: 10px;
+            padding-bottom: 0px;
+            cursor: pointer;
+        }
+        [class~='selected']{
+            color: #6ccca1;
+            cursor: pointer;
+        }
+    }
+    .datacontainer{
+        .paginationcontainer{
+            display: flex;
+            justify-content: flex-end;
+            .parentpagination{
+                display: flex;
+                width: 50%;
+                justify-content: space-between;
+                .nextbtncontainer{
+                    [class~='nextbtn']{
+                        min-width: 150px;
+                    }
+                }
+                .btnpaginatedcontainer{
+                    
+                    i{
+                        font-size: 20px;
+                    }
+                    [class~='fa-angle-right']{
+                        padding-left: 4px;
+                    }
+                    [class~='fa-angle-left']{
+                        padding-right: 4px;
+                    }
+                    
+                    button{
+                        min-width: 40px;
+                    }
+                }
+            }
+        }
+    }
+}
