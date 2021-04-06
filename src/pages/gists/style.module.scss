@@ -24,6 +24,7 @@
         .paginationcontainer{
             display: flex;
             justify-content: flex-end;
+            padding: 40px;
             .parentpagination{
                 display: flex;
                 width: 50%;
@@ -34,7 +35,6 @@
                     }
                 }
                 .btnpaginatedcontainer{
-                    
                     i{
                         font-size: 20px;
                     }
