@@ -13,7 +13,7 @@ interface GistsComponentFace{
 }
 export const Gists: React.FC<GistsComponentFace> = (props): React.ReactElement => {
   const storeState  = store.getState()
-  const { gistState:{view}, pagination } = props
+  const { gistState:{view,gists}, pagination } = props
   const {total_pages, current_page, buttons:{next, back}, limit} = pagination;
 
   const NextPage = ()=>{
@@ -41,7 +41,7 @@ export const Gists: React.FC<GistsComponentFace> = (props): React.ReactElement =
       <div className={styles.datacontainer}>
           <div className={styles.list}>
             {
-              view === gistview.row ? <GistInRows /> : <GridList {...pagination} />
+              view === gistview.row ? <GistInRows {...{paginationStateFace:pagination, gists}} /> : <GridList {...{paginationStateFace:pagination, gists}}/>
             }
           </div>
           <div className={styles.paginationcontainer}>

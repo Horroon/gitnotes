@@ -1,18 +1,28 @@
 import React from "react";
-import styles from './style.module.scss';
+import { UserInfoDropdown } from "./dropdown";
+import {store} from '../../models/index'
+import styles from "./style.module.scss";
 
 interface UserInfoInterface {
-  isLoggedIn: boolean;
-  img: string;
+  isLogged: boolean;
+  userinfo: {
+    profile: string;
+    name: string;
+    isdropdownOpened: boolean;
+  };
 }
 
 export const UserInfo: React.FC<UserInfoInterface> = (
   props
 ): React.ReactElement => {
-    const {img,isLoggedIn} = props
-  return isLoggedIn ? (
+  const { userinfo ,isLogged} = props;
+  const {profile, isdropdownOpened} = userinfo
+  return isLogged ? (
     <div className={styles.userinfo}>
-      <img src={img} />
+      <img src={profile} onClick={()=>store.dispatch.loginInfo.update_dropdown_status(!isdropdownOpened)} />
+      <UserInfoDropdown
+        {...{ userinfo, isOpened: isdropdownOpened }}
+      />
     </div>
   ) : (
     <div className={styles.loginbtncontainer}>

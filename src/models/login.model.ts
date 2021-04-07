@@ -1,17 +1,20 @@
+import {loginInfoFace} from '../constants/models.interfaces/login'
 export const loginInfo = {
-    state:{
-        isLogged: false,
+    state:<loginInfoFace>{
+        isLogged: true,
         userinfo:{
-            profile:'',
-            name:'',
+            profile:'http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Profile-Picture-4.jpg',
+            name:'Haroon',
+            isdropdownOpened:false
         }
     },
     reducers:{
-        login:(state:any, payload:any)=>{
+        login:(state:loginInfoFace, payload:any)=>{
             return {...state, ...payload} //send me object e.g ....{userinfo:{}}
         },
-        updateinfo:(state:any, payload:any)=>{
+        updateinfo:(state:loginInfoFace, payload:any)=>{
             return {...state, ...payload} 
-        }
+        },
+        update_dropdown_status:(state:loginInfoFace, payload:boolean)=>({...state, userinfo:{...state.userinfo, isdropdownOpened: payload}})
     }
 }

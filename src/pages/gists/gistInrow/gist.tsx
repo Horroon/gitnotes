@@ -1,9 +1,17 @@
 import React from "react";
+import {paginationStateFace} from '../../../constants/models.interfaces/pagination'
 import styles from "./style.module.scss";
 const img =
   "http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Profile-Picture-4.jpg";
   
-export const GistInRows: React.FC = (): React.ReactElement => {
+
+  interface ListFace{
+    paginationStateFace:paginationStateFace,
+    gists:any[]
+  }
+export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
+  const {paginationStateFace:{limit},gists} = props
+  const recordToShow = gists.slice(limit.from,limit.to)
   return (
     <div className={styles.gistrowcontainer}>
       <table className={`${styles.table} table`}>
@@ -30,67 +38,24 @@ export const GistInRows: React.FC = (): React.ReactElement => {
           </tr>
         </thead>
         <tbody className={styles.tbody}>
-          {[
-            {
-              img: img,
-              name: "Mark",
-              date: "March,21,2021",
-              time: "12:00pm",
-              description: "describe me",
-              notebook: "Note book",
-            },
-            {
-              img: img,
-              name: "Mark",
-              date: "March,21,2021",
-              time: "12:00pm",
-              description: "describe me",
-              notebook: "Note book",
-            },
-            {
-              img: img,
-              name: "Mark",
-              date: "March,21,2021",
-              time: "12:00pm",
-              description: "describe me",
-              notebook: "Note book",
-            },
-            {
-              img: img,
-              name: "Mark",
-              date: "March,21,2021",
-              time: "12:00pm",
-              description: "describe me",
-              notebook: "Note book",
-            },
-            {
-              img: img,
-              name: "Mark",
-              date: "March,21,2021",
-              time: "12:00pm",
-              description: "describe me",
-              notebook: "Note book",
-            },
-          ].map((gist) => (
-            <tr>
+          {recordToShow.map((gist) => (
+            <tr id={gist.toString()}>
               <th scope="row" className={styles.thtag}>
                 <input type="checkbox" />
               </th>
               <th scope="row" className={styles.thimg}>
                 <img
                   className={"profile"}
-                  src={
-                    "http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Profile-Picture-4.jpg"
-                  }
+                  src={img}
                 />
               </th>
-              <td className={styles.thimg}>{gist.name}</td>
+              <td className={styles.thimg}>Mark - {gist}</td>
 
-              <td className={styles.thimg}>{gist.date}</td>
-              <td className={styles.thimg}>{gist.time}</td>
-              <td className={styles.thimg}>{gist.description}</td>
+              <td className={styles.thimg}>March,21,2021</td>
+              <td className={styles.thimg}>12:00pm</td>
+              <td className={styles.thimg}>describe me</td>
 
-              <td className={styles.thimg}>{gist.notebook}</td>
+              <td className={styles.thimg}>Note book</td>
               <td className={styles.thimg}>
                 <div className={styles.iconcontainer}>
                   <div>

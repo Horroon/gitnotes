@@ -5,12 +5,12 @@ import {connect} from 'react-redux'
 import styles from "./style.module.scss";
 
 const MainScreen: React.FC<any> = (props): React.ReactElement => {
-  const {gistslist,pagination} = props
-  console.log(props)
+  const {gistslist,pagination, loginInfo} = props
+  console.log(loginInfo)
   return (
     <div className={styles.mainscreencontainer}>
       <div className={styles.headercontainer}>
-        <Header />
+        <Header {...loginInfo} />
       </div>
       <div className={`${styles.mainbody} container`}>
         {

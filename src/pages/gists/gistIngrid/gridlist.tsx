@@ -1,10 +1,13 @@
 import React from "react";
 import {paginationStateFace} from '../../../constants/models.interfaces/pagination'
 
-const list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-export const GridList: React.FC<paginationStateFace> = (props): React.ReactElement => {
-  const {limit} = props
-  const recordToShow = list.slice(limit.from,limit.to)
+interface GridListFace{
+  paginationStateFace:paginationStateFace,
+  gists:any[]
+}
+export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
+  const {paginationStateFace:{limit},gists} = props
+  const recordToShow = gists.slice(limit.from,limit.to)
   return (
     <div>
       <div className="row justify-content-center">
