@@ -41,7 +41,7 @@ export const Gists: React.FC<GistsComponentFace> = (props): React.ReactElement =
       <div className={styles.datacontainer}>
           <div className={styles.list}>
             {
-              view === gistview.row ? <GistInRows {...{paginationStateFace:pagination, gists}} /> : <GridList {...{paginationStateFace:pagination, gists}}/>
+              view === gistview.row ? gists.length && <GistInRows {...{paginationStateFace:pagination, gists}} /> : gists.length && <GridList {...{paginationStateFace:pagination, gists}}/>
             }
           </div>
           <div className={styles.paginationcontainer}>

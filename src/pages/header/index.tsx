@@ -3,8 +3,8 @@ import { Search } from "../search/index";
 import logo from "../../assets/emumba-logo.png";
 import { UserInfo } from "../userinfo/index";
 import {loginInfoFace} from '../../constants/models.interfaces/login';
-
 import styles from "./style.module.scss";
+
 
 export const Header: React.FC<loginInfoFace> = (props): React.ReactElement => {
     const {isLogged, userinfo} = props

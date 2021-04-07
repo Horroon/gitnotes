@@ -1,16 +1,16 @@
 .userinfo{
     margin-left: 20px;
-    margin-top: 7px;
     img{
-        height: 35px;
-        border-radius: 25px;
+        height: 46px;
+        border-radius: 23px;
         padding: 2px;
+        cursor: pointer;
     }
 }
 .loginbtncontainer{
     padding-top: 6px;
     margin-left: 30px;
-    button{
+    button {
         padding: 7px;
         min-width: 100px;
         border: none;
@@ -28,9 +28,9 @@
     z-index: 1;
     border: 2px solid gray;
     padding: 17px;
-    margin-left: -182px;
+    margin-left: -175px;
     border-radius: 6px;
-    margin-top: 16px;
+    margin-top: 10px;
     box-shadow: 0px 0px 7px 0px;
     [class~='triangle']{
         width: 0; 

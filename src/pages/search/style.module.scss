@@ -2,13 +2,14 @@ $borderColor:#ffffff;
 
 .searchmaincomponent{
     display: flex;
-    border: 1px solid $borderColor;
+    border: 1px solid #ffffff;
     padding: 10px;
-    padding-top: 7px;
+    padding-top: 4px;
     min-width: 50%;
+    height: 36px;
     justify-content: space-between;
     border-radius: 6px;
-    margin-top: 4px;
+    margin-top: 6px;
     .searchinputcontainer{
         min-width: 80%;
         input{

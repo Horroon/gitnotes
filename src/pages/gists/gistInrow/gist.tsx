@@ -38,22 +38,23 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
           </tr>
         </thead>
         <tbody className={styles.tbody}>
-          {recordToShow.map((gist) => (
-            <tr id={gist.toString()}>
+          {recordToShow.map((gist) => {
+            return(
+            <tr>
               <th scope="row" className={styles.thtag}>
                 <input type="checkbox" />
               </th>
               <th scope="row" className={styles.thimg}>
                 <img
                   className={"profile"}
-                  src={img}
+                  src={gist.owner.avatar_url}
                 />
               </th>
-              <td className={styles.thimg}>Mark - {gist}</td>
+              <td className={styles.thimg}>{gist.owner.login}</td>
 
-              <td className={styles.thimg}>March,21,2021</td>
-              <td className={styles.thimg}>12:00pm</td>
-              <td className={styles.thimg}>describe me</td>
+              <td className={styles.thimg}>{gist.created_at}</td>
+              <td className={styles.thimg}>{gist.created_at}</td>
+              <td className={styles.thimg}>{gist.description}</td>
 
               <td className={styles.thimg}>Note book</td>
               <td className={styles.thimg}>
@@ -67,7 +68,7 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
                 </div>
               </td>
             </tr>
-          ))}
+          )})}
         </tbody>
       </table>
     </div>

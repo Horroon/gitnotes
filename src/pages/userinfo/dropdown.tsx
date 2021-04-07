@@ -1,4 +1,5 @@
 import React from "react";
+import {SignoutCurrentUser} from '../../config/authMethods';
 import styles from "./style.module.scss";
 
 interface UserInfoDropdownFace{
@@ -11,7 +12,8 @@ interface UserInfoDropdownFace{
 };
 
 export const UserInfoDropdown: React.FC<UserInfoDropdownFace> = (props): React.ReactElement => {
-    const {userinfo:{name}, isOpened} = props
+    const {userinfo:{name}, isOpened} = props;
+    
   return isOpened ? (
       <div className={styles.userdropdown}>
         <div className="triangle"></div>
@@ -26,7 +28,7 @@ export const UserInfoDropdown: React.FC<UserInfoDropdownFace> = (props): React.R
         </div>
         <div className={styles.gitsignout}>
           <p>Your GitHub profile</p>
-          <p>sign out</p>
+          <p onClick={SignoutCurrentUser}>sign out</p>
         </div>
       </div>
   ):<div></div>;
