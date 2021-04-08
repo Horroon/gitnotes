@@ -1,0 +1,21 @@
+.logincontainer{
+    padding-top: 100px;
+    .card{
+        text-align: center;
+        width: 400px;
+        height: 400px;
+        margin: auto;
+        padding-top: 72px;
+        box-shadow: 1px 1px 6px 1px;
+        .imgcontainer{
+            padding: 20px;
+            img{
+                width: 181px;
+                height: 100px;
+            }
+        }
+        .loginButton{
+            padding: 20px;
+        }
+    }
+}

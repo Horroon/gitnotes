@@ -1,5 +1,7 @@
 import React from "react";
-import {paginationStateFace} from '../../../constants/models.interfaces/pagination'
+import moment from 'moment'
+import {paginationStateFace} from '../../../constants/models.interfaces/pagination';
+import styles from './style.module.scss'
 
 interface GridListFace{
   paginationStateFace:paginationStateFace,
@@ -9,26 +11,30 @@ export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
   const {paginationStateFace:{limit},gists} = props
   const recordToShow = gists.slice(limit.from,limit.to)
   return (
-    <div>
-      <div className="row justify-content-center">
-        {recordToShow.map((card) => (
-          <div className="card col-lg-3 my-4 mx-4 rounded-lg" id={card.toString()}>
+    <div className={styles.gridcontainer}>
+      <div className="row ">
+        {recordToShow.map((card) => (<div className={`${styles.card} col-lg-3 my-4`}>
+          <div className={`${styles.card} card rounded-lg`}>
             <div className="card-body">
-              <h5 className="card-title">Card {card}</h5>
-              <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+              <p className={styles.cardtext}>
+                {
+                  JSON.stringify(card)
+                }
               </p>
-              <a href="#" className="card-link">
-                Card link
-              </a>
-              <a href="#" className="card-link">
-                Another link
-              </a>
+              <div className={styles.persondinfo}>
+                 <div className={styles.personpicontainer} >
+                   <img src={card.owner.avatar_url} />
+                 </div>
+                 <div className={styles.desc}> 
+                   <a href="#" className="card-link">
+                    {card.owner.login}
+                    </a>
+                    <p>{moment(card.created_at).fromNow()}</p>
+                 </div>
+                </div>
             </div>
           </div>
-        ))}
+        </div>))}
       </div>
     </div>
   );

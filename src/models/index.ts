@@ -3,12 +3,13 @@ import {createLogger} from 'redux-logger';
 import {loginInfo} from './login.model';
 import {gistslist} from './gist.model';
 import {pagination} from './pagination.model';
-
+import {Route} from './route.model'
 
 const models = {
     loginInfo,
     gistslist,
     pagination,
+    Route
 }
 
 const logger = () =>  createLogger({ collapsed: (getState, action, logEntry:any) => !logEntry.error });

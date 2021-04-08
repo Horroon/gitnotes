@@ -1,8 +1,8 @@
+import moment from "moment";
 import React from "react";
-import {paginationStateFace} from '../../../constants/models.interfaces/pagination'
+import {paginationStateFace} from '../../../constants/models.interfaces/pagination';
+import {DateFormatter, TimeFormatter} from '../../../utilities/dateformatter';
 import styles from "./style.module.scss";
-const img =
-  "http://www.goodmorningimagesdownload.com/wp-content/uploads/2019/12/Profile-Picture-4.jpg";
   
 
   interface ListFace{
@@ -52,9 +52,9 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
               </th>
               <td className={styles.thimg}>{gist.owner.login}</td>
 
-              <td className={styles.thimg}>{gist.created_at}</td>
-              <td className={styles.thimg}>{gist.created_at}</td>
-              <td className={styles.thimg}>{gist.description}</td>
+              <td className={styles.thimg}>{moment(gist.created_at).format('ll')}</td>
+              <td className={styles.thimg}>{moment(gist.created_at).format('hh:mm:ss a') }</td>
+              <td className={`${styles.thimg} td-description` }>{gist.description}</td>
 
               <td className={styles.thimg}>Note book</td>
               <td className={styles.thimg}>

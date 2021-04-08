@@ -43,6 +43,11 @@
                     border-color: #def5ec;
                 }
             }
+            [class~='td-description']{
+                overflow: hidden;
+                flex-wrap: nowrap;
+                max-width: 100px;
+            }
             .thimg{
                 border-top: none;
                 border-bottom: 1px solid #def5ec;
