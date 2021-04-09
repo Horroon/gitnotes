@@ -38,9 +38,25 @@ export const Gists: React.FC<GistsComponentFace> = (
         store.dispatch.pagination.update_current_page({
           current_page: curpage,
         });
+        
+        current_page < total_pages &&
+        store.dispatch.pagination.update_limit({
+          from: limit.to,
+          to: limit.to + limit.pagesize,
+          hasmore: true,
+        });
+
+        current_page + 1 < total_pages && store.dispatch.pagination.update_button_status({
+          back: true,
+          next: true,
+        });
       }, 1000);
     } else {
       store.dispatch.pagination.update_hasmore_gist(false);
+      store.dispatch.pagination.update_current_page({
+        current_page: total_pages,
+      });
+      store.dispatch.pagination.update_button_status({back: true, next: false})
     }
   };
 
@@ -80,6 +96,7 @@ export const Gists: React.FC<GistsComponentFace> = (
         });
     }
   };
+  console.log('current-page', limit)
   return (
     <div className={styles.gitscontainer}>
       <div className={styles.gridbuttoncontainer}>
