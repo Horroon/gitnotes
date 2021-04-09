@@ -1,10 +1,12 @@
 export interface paginationStateFace {
-    total_pages:string,
-    current_page: string,
+    total_pages:number,
+    current_page: number,
+    showRecords:any[],
     limit:{
         from:number,
         to:number,
-        pagesize: number
+        pagesize: number,
+        hasmore:boolean
     },
     buttons:{
         next:boolean,

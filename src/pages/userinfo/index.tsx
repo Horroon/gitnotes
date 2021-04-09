@@ -19,10 +19,11 @@ interface UserInfoInterface {
 export const UserInfo: React.FC<UserInfoInterface> = (
   props
 ): React.ReactElement => {
+  
   console.log('current user ')
   const history = useHistory()
   const { userinfo ,isLogged} = props;
-  const {profile, isdropdownOpened} = userinfo
+  const {profile, isdropdownOpened} = userinfo;
   return isLogged ? (
     <div className={styles.userinfo}>
       <img src={profile} onClick={()=>store.dispatch.loginInfo.update_dropdown_status(!isdropdownOpened)} />

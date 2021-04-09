@@ -1,17 +1,26 @@
 import moment from "moment";
 import React from "react";
 import {paginationStateFace} from '../../../constants/models.interfaces/pagination';
-import {DateFormatter, TimeFormatter} from '../../../utilities/dateformatter';
 import styles from "./style.module.scss";
+import {PrintFileInfo} from '../../../utilities/PrintFileInfo';
   
 
   interface ListFace{
     paginationStateFace:paginationStateFace,
     gists:any[]
   }
+
+  const TableHeaderNames = [
+    "Name",
+    "Date",
+    "Time",
+    "Description(s) Name",
+    "Notebook(s) Name",
+  ];
+
 export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
   const {paginationStateFace:{limit},gists} = props
-  const recordToShow = gists.slice(limit.from,limit.to)
+  const recordToShow = gists.slice(limit.from,limit.to);
   return (
     <div className={styles.gistrowcontainer}>
       <table className={`${styles.table} table`}>
@@ -21,13 +30,7 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
               <input type="checkbox" />
             </th>
             <th scope="col" className={styles.thtag}></th>
-            {[
-              "Name",
-              "Date",
-              "Time",
-              "Description(s) Name",
-              "Notebook(s) Name",
-            ].map((tagname) => (
+            {TableHeaderNames.map((tagname) => (
               <th scope="col" className={styles.thtag}>
                 {tagname}
               </th>
@@ -39,6 +42,7 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
         </thead>
         <tbody className={styles.tbody}>
           {recordToShow.map((gist) => {
+            const fileInfo = PrintFileInfo(gist.files)
             return(
             <tr>
               <th scope="row" className={styles.thtag}>
@@ -56,7 +60,7 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
               <td className={styles.thimg}>{moment(gist.created_at).format('hh:mm:ss a') }</td>
               <td className={`${styles.thimg} td-description` }>{gist.description}</td>
 
-              <td className={styles.thimg}>Note book</td>
+              <td className={`${styles.thimg} td-description`}>{fileInfo[0].filename} {fileInfo.length > 1 && `(${fileInfo.length - 1}+)`} </td>
               <td className={styles.thimg}>
                 <div className={styles.iconcontainer}>
                   <div>

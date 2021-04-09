@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { subpaths } from "../constants/paths/index";
 import { GetPublicGist } from "../logics/get-public-gists";
+import { GetAuthenticatedUserGists } from "../logics/get-authenticated-user-gists";
 import styles from "./style.module.scss";
 import { store } from "../models";
 import { Gists } from "./gists";
@@ -20,20 +21,22 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
   const history = useHistory();
   console.log(reduxroute);
   const GetGists = async () => {
-    const gists = await GetPublicGist();
+
+    const gists = loginInfo.isLogged ? await GetAuthenticatedUserGists() : await GetPublicGist();
     if (gists) {
       const totalPages = Math.ceil(gists.length / pagination.limit.pagesize);
       store.dispatch.gistslist.update_gist(gists);
       store.dispatch.pagination.update_total_pages({
-        total_pages: totalPages.toString(),
+        total_pages: totalPages,
       });
+      store.dispatch.pagination.update_show_records(gists.slice(0, 10))
       store.dispatch.Route.updateCurrentRoute(subpaths.publicgists);
       history.push(subpaths.publicgists);
     }
   };
   useEffect(() => {
     GetGists();
-  }, []);
+  }, [loginInfo.isLogged]);
   console.log("redux route ", reduxroute);
 
   return (
