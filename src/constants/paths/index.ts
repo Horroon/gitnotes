@@ -1,4 +1,5 @@
 export const subpaths = {
     login:'/login',
-    publicgists:'/public/gists'
+    publicgists:'/public/gists',
+    singlegist:'/single/gist',
 };

@@ -15,6 +15,8 @@ import styles from "./style.module.scss";
 import { store } from "../models";
 import { Gists } from "./gists";
 import { Login } from "./login/login";
+import SingleGistPage from "./single-gist-page/gist";
+
 
 const MainScreen: React.FC<any> = (props): React.ReactElement => {
   const { gistslist, pagination, loginInfo, Route: reduxroute } = props;
@@ -50,7 +52,7 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
             path="/"
             render={() => <Redirect to={subpaths.publicgists} />}
           />
-          <Route path={subpaths.publicgists}>
+          <Route exact path={subpaths.publicgists}>
             <Gists {...{ gistState: gistslist, pagination }} />
           </Route>
           <Route
@@ -63,6 +65,12 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
             }}
           >
             <Login {...loginInfo} />
+          </Route>
+          <Route
+            exact
+            path={`${subpaths.singlegist}/`}
+            >
+            <SingleGistPage />
           </Route>
         </div>
       </div>
