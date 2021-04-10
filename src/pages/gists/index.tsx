@@ -84,11 +84,22 @@ export const Gists: React.FC<GistsComponentFace> = (
     if (back) {
       const newpageIndex = current_page > 1 ? current_page - 1 : current_page;
       store.dispatch.pagination.goToNext({ current_page: newpageIndex });
+      
       newpageIndex == 1 &&
         store.dispatch.pagination.update_button_status({
           back: false,
           next: true,
         });
+
+      newpageIndex === total_pages && store.dispatch.pagination.update_button_status({
+        back: false,
+        next: false,
+      });
+
+      newpageIndex < total_pages && store.dispatch.pagination.update_button_status({
+        next: true,
+        back: newpageIndex > 1 ? true : false
+      })
       current_page > 1 &&
         store.dispatch.pagination.update_limit({
           from: limit.from - limit.pagesize,
