@@ -24,7 +24,6 @@ export const Header: React.FC<HeaderFace> = (props): React.ReactElement => {
   };
 
   const SearchIconClickHandler = ()=>{
-    alert('I will start search soon for ' + searchgistId)
   }
 console.log('search ', searchgistId)
   return (
