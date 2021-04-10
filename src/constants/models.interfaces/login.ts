@@ -3,6 +3,7 @@ export interface loginInfoFace{
     userinfo:{
         profile: string,
         name:string,
+        username:string,
         isdropdownOpened:boolean
     }
 }

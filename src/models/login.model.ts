@@ -5,6 +5,7 @@ export const loginInfo = {
         userinfo:{
             profile:'',
             name:'',
+            username:'',
             isdropdownOpened:false
         }
     },
@@ -21,6 +22,7 @@ export const loginInfo = {
             userinfo:{
                 profile:'',
                 name:'',
+                username:'',
                 isdropdownOpened:false
             }
         })

@@ -50,10 +50,16 @@
         border-bottom: 1px solid #dcdcdc;
     }
     .usergist{
+        a{
+            color: #000;
+        }
         padding-top: 17px;
         border-bottom: 1px solid #dcdcdc;
     }
     .gitsignout{
         padding-top: 17px;
+        a{
+            color: #000;
+        }
     }
 }

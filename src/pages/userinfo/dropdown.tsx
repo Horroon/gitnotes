@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {SignoutCurrentUser} from '../../config/authMethods';
+import { subpaths } from "../../constants/paths";
 import styles from "./style.module.scss";
 
 interface UserInfoDropdownFace{
@@ -22,12 +24,12 @@ export const UserInfoDropdown: React.FC<UserInfoDropdownFace> = (props): React.R
           <p>{name}</p>
         </div>
         <div className={styles.usergist}>
-          <p>Your gists</p>
+          <Link to={subpaths.creategist}><p>Create gist</p></Link>
           <p>Starred gists</p>
           <p>Help</p>
         </div>
         <div className={styles.gitsignout}>
-          <p>Your GitHub profile</p>
+          <Link to={subpaths.gistprofile}><p>Your GitHub profile</p></Link>
           <p onClick={SignoutCurrentUser}>sign out</p>
         </div>
       </div>

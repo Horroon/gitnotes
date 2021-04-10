@@ -1,87 +1,103 @@
-import React, {useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { GetGistById } from "../../logics/get-gistdatabyId";
 import { useHistory } from "react-router-dom";
 import styles from "./style.module.scss";
 import { subpaths } from "../../constants/paths";
-import {PrintFileInfo} from '../../utilities/PrintFileInfo'
+import { PrintFileInfo } from "../../utilities/PrintFileInfo";
 import moment from "moment";
 import { GetGistUserFile } from "../../logics/get-gistuser-file";
+import { GiveStarToGist } from "../../logics/give-star-to-gist";
+import { ForkAGist } from "../../logics/fork-gist";
 
 const Properties = {
-    gist:"GIST",
-    loader:"Loader",
-    fileinfo:"FileInfo"
-}
+  gist: "GIST",
+  loader: "Loader",
+  fileinfo: "FileInfo",
+};
 
-interface GistStateFace{
-  gist:any,
-  loader:boolean,
-  fileinfo:{
-      filename:string,
-      fileurl:string,
-      filetext:any,
-  }
+interface GistStateFace {
+  gist: any;
+  loader: boolean;
+  fileinfo: {
+    filename: string;
+    fileurl: string;
+    filetext: any;
+  };
 }
-interface ActionFace{
-    type:string,
-    payload:any
+interface ActionFace {
+  type: string;
+  payload: any;
 }
 const InitialState = {
-    gist:[],
-    loader: true,
-    fileinfo:{
-        filename:'',
-        fileurl:'',
-        filetext:'',
-    }
-}
+  gist: [],
+  loader: true,
+  fileinfo: {
+    filename: "",
+    fileurl: "",
+    filetext: "",
+  },
+};
 
-function reducer(state:GistStateFace,action:ActionFace):GistStateFace{
-    switch(action.type){
-        case Properties.gist:
-            return {...state, gist: action.payload};
-        case Properties.loader:
-            return {...state, loader: action.payload};
-        case Properties.fileinfo:
-            return {...state, fileinfo: action.payload};
-        default:
-            return state
-    }
+function reducer(state: GistStateFace, action: ActionFace): GistStateFace {
+  switch (action.type) {
+    case Properties.gist:
+      return { ...state, gist: action.payload };
+    case Properties.loader:
+      return { ...state, loader: action.payload };
+    case Properties.fileinfo:
+      return { ...state, fileinfo: action.payload };
+    default:
+      return state;
+  }
 }
 
 const SingleGistPage: React.FC<any> = () => {
   const [state, setState] = useReducer(reducer, InitialState);
   const History = useHistory();
 
+  const StarAGist = async (gistId: string) => {
+    const response = await GiveStarToGist(gistId);
+    console.log("star reponse after call success ", response);
+  };
+
+  const ForAGist = async (gistId:string)=>{
+    const response = await ForkAGist(gistId);
+    console.log('Response after fork request', response)
+  };
+
   const GetGistDetail = async (gistId: string) => {
     const response = await GetGistById(gistId);
-    debugger
     const fileinfo = PrintFileInfo(response.files);
 
     const getFile = await GetGistUserFile(fileinfo[0].fileUrl);
-    setState({type: Properties.fileinfo, payload:{filename: fileinfo[0].filename, fileurl: fileinfo[0].fileUrl, filetext: getFile}})
-    setState({type: Properties.gist, payload: response});
-    setState({type: Properties.loader, payload: false})
+    setState({
+      type: Properties.fileinfo,
+      payload: {
+        filename: fileinfo[0].filename,
+        fileurl: fileinfo[0].fileUrl,
+        filetext: getFile,
+      },
+    });
+    setState({ type: Properties.gist, payload: response });
+    setState({ type: Properties.loader, payload: false });
   };
+
   useEffect(() => {
     const gistId = window.location.search.split("=")[1];
     if (gistId) {
-      GetGistDetail(gistId);
+      GetGistDetail("f5eb3454e92625fadef07c881191a4b9");
     } else {
       History.push(subpaths.publicgists);
     }
   }, []);
- console.log('gist data ', state)
-  return !state.loader ?(
+  console.log("gist data ", state);
+  return !state.loader ? (
     <div className={styles.singlegistcontainer}>
       <div className={styles.gistbody}>
         <div className={styles.gistprofile}>
           <div className={styles.gistpicture}>
             <div className={styles.picture}>
-              <img
-                src={state?.gist?.owner.avatar_url}
-                alt="404"
-              />
+              <img src={state?.gist?.owner.avatar_url} alt="404" />
             </div>
             <div className={styles.description}>
               <div className={styles.nameandfile}>
@@ -97,11 +113,11 @@ const SingleGistPage: React.FC<any> = () => {
             <div className={styles.icons}>
               <span>
                 <i className="fa fa-star-o" />
-                <button>1</button>
+                <button onClick={()=>StarAGist(state.gist.id)}>1</button>
               </span>
               <span>
                 <i className="fa fa-code-fork" />
-                <button>1</button>
+                <button onClick={()=>ForAGist(state.gist.id)}>1</button>
               </span>
             </div>
           </div>
@@ -111,14 +127,14 @@ const SingleGistPage: React.FC<any> = () => {
             <div className="card-header">
               <i className="fa fa-file" /> &nbsp;{state?.fileinfo.filename}
             </div>
-            <div className="card-body">
-                {state.fileinfo.filetext}
-            </div>
+            <div className="card-body">{state.fileinfo.filetext}</div>
           </div>
         </div>
       </div>
     </div>
-  ):(<div>Loading...</div>);
+  ) : (
+    <div>Loading...</div>
+  );
 };
 
 export default SingleGistPage;

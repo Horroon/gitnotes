@@ -1,0 +1,100 @@
+.gistprofilecontainer{
+    .prow{
+        .profilecol{
+            border-bottom: 1px solid #b3a9a9;
+            min-height: 80vh;
+            div{
+                padding: 20px;
+                img{
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 100px;
+                }
+                button{
+                    font-size: 16px;
+                    color: #007bff;
+                    border: 1px solid #f3f3f3;
+                }
+            }
+        }
+        .gistsection{
+            border-left: 1px solid #b3a9a9;
+            border-bottom: 1px solid #b3a9a9;
+            overflow-y: scroll;
+            height: 80vh;
+            padding-bottom: 30px;
+            ::-webkit-scrollbar{
+                display: none;
+            }
+            .singlegistcontainer{
+                padding-top: 50px;
+                width: 80%;
+                margin: auto;
+                .gistbody{
+                    .gistprofile{
+                        display: flex;
+                        justify-content: space-between;
+                        .gistpicture{
+                            display: flex;
+                            .picture{
+                                img{
+                                    height: 80px;
+                                    width: 80px;
+                                    border-radius: 40px;
+                                    border: 1px solid #6ccca1;
+                                }
+                            }
+                            .description{
+                                padding: 12px;
+                                .nameandfile{
+                                    display: flex;
+                                    p{
+                                        margin: 0px;
+                                        color: #3580ff;
+                                    }
+                                    h5{
+                                        margin: 0px;
+                                        color: #3580ff;
+                                        font-weight: bold;
+                                    }
+                                }
+                            }
+                        }
+                        .giststarandfork{
+                            padding-top: 16px;
+                            .icons{
+                                span{
+                                    padding-left: 20px;
+                                    cursor: pointer;
+                                    i{
+                                        color: #5b8cff;
+                                        padding-right: 10px;
+                                        font-size: 20px;
+                                    }
+                                    button{
+                                        background: transparent;
+                                        border: 1px solid gray;
+                                        width: 40px;
+                                        padding: 1px;
+                                        border-radius: 5px;
+                                        outline: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .gistfilecontainer{
+                        [class~='card']{
+                            box-shadow: 0px 3px 4px 0px;
+                            border-radius: 4px;
+                            [class~='card-body']{
+                                height: 150px;
+                                overflow: hidden;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

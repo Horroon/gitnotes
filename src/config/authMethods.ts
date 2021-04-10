@@ -4,19 +4,21 @@ import {store} from '../models/index';
 export const gitHubProvider = new firebase.auth.GithubAuthProvider();
 
 firebase.auth().onAuthStateChanged(user=>{
-    if(user){
-        console.log('user is ', user)
+    const username = sessionStorage.getItem('username')
+    if(user && username){
         const loginstate = {
             isLogged: true,
             userinfo:{
                 profile: user.photoURL || '',
                 name: user.displayName || '',
+                username:  username,
                 isdropdownOpened:false
             }
         }
         store.dispatch.loginInfo.login({...loginstate})
     }
     else {
+        store.dispatch.loginInfo.resetloginState()
         console.log('user not able ')
     }
 })
