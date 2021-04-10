@@ -9,6 +9,7 @@ import {
 } from "../../constants/models.interfaces/gists";
 import { paginationStateFace } from "../../constants/models.interfaces/pagination";
 import { PaginationContainer } from "./paginationcontainer/index";
+import { SearchRecordById } from "../../utilities/filterdatabyId";
 
 interface GistsComponentFace {
   gistState: gistStateFace;
@@ -96,7 +97,7 @@ export const Gists: React.FC<GistsComponentFace> = (
         });
     }
   };
-  console.log('current-page', props)
+
   return (
     <div className={styles.gitscontainer}>
       <div className={styles.gridbuttoncontainer}>
@@ -114,12 +115,12 @@ export const Gists: React.FC<GistsComponentFace> = (
         <div className={styles.list}>
           {view === gistview.row
             ? gists.length && (
-                <GistInRows {...{ paginationStateFace: pagination, gists }} />
+                <GistInRows {...{ paginationStateFace: pagination, gists, searchgistId }} />
               )
             : gists.length && (
                 <GridList
                   pagination={pagination}
-                  {...{ hasmore: limit.hasmore }}
+                  {...{ hasmore: limit.hasmore ,searchgistId, gists, searchId: searchgistId}}
                   loadmoreItem={loadmoreItem}
                 />
               )}
@@ -130,7 +131,7 @@ export const Gists: React.FC<GistsComponentFace> = (
             BackPage={BackPage}
             NextPage={NextPage}
             styles={styles}
-            isToShowPagination={view === gistview.row}
+            isToShowPagination={view === gistview.row && !searchgistId}
             current_page={current_page}
             total_pages={total_pages}
           />

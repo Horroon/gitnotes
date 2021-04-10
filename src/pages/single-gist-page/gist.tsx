@@ -85,12 +85,11 @@ const SingleGistPage: React.FC<any> = () => {
   useEffect(() => {
     const gistId = window.location.search.split("=")[1];
     if (gistId) {
-      GetGistDetail("f5eb3454e92625fadef07c881191a4b9");
+      GetGistDetail(gistId);
     } else {
       History.push(subpaths.publicgists);
     }
   }, []);
-  console.log("gist data ", state);
   return !state.loader ? (
     <div className={styles.singlegistcontainer}>
       <div className={styles.gistbody}>

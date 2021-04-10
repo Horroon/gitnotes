@@ -8,16 +8,19 @@ import InfiniteScroll from "react-infinite-scroller";
 import FileContent from './gistUserFile';
 import { Link } from "react-router-dom";
 import { subpaths } from "../../../constants/paths";
+import { SearchRecordById } from "../../../utilities/filterdatabyId";
 
 interface GridListFace {
   hasmore: boolean;
   loadmoreItem: any;
-  pagination:paginationStateFace
+  pagination:paginationStateFace,
+  gists:any[],
+  searchId:string,
 }
 
 export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
-  const { hasmore, loadmoreItem, pagination:{showRecords} } = props;
-
+  const { hasmore, loadmoreItem, pagination:{showRecords} , gists, searchId} = props;
+  const recordsOnScreen = searchId ? SearchRecordById(searchId, gists) : showRecords;
   return (
     <div className={styles.gridcontainer}>
       <InfiniteScroll
@@ -31,9 +34,9 @@ export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
         }
         threshold={250}
       >
-        <h4> {showRecords.length} gist{showRecords.length>1?'s':''}</h4>
+        <h4> {recordsOnScreen.length} gist{recordsOnScreen.length>1?'s':''}</h4>
         <div className="row ">
-          {showRecords.map((card: any) => {
+          {recordsOnScreen.map((card: any) => {
             const FileInfo = PrintFileInfo(card.files);
             return (
               <Link to={`${subpaths.singlegist}?id=${card.id}`} className={`${styles.card} col-lg-4 my-4`}>

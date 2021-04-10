@@ -5,10 +5,12 @@ import styles from "./style.module.scss";
 import { PrintFileInfo } from "../../../utilities/PrintFileInfo";
 import { Link,Redirect, useHistory } from "react-router-dom";
 import { subpaths } from "../../../constants/paths";
+import { SearchRecordById } from "../../../utilities/filterdatabyId";
 
 interface ListFace {
   paginationStateFace: paginationStateFace;
   gists: any[];
+  searchgistId:string,
 }
 
 const TableHeaderNames = [
@@ -23,9 +25,10 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
   const {
     paginationStateFace: { limit },
     gists,
+    searchgistId,
   } = props;
-  const recordToShow = gists.slice(limit.from, limit.to);
-  const History = useHistory()
+  const recordToShow =  searchgistId ? SearchRecordById(searchgistId, gists) : gists.slice(limit.from, limit.to);
+  const History = useHistory();
   return (
     <div className={styles.gistrowcontainer}>
       <table className={`${styles.table} table`}>
