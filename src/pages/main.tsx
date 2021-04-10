@@ -46,7 +46,7 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
     <Router>
       <div className={styles.mainscreencontainer}>
         <div className={styles.headercontainer}>
-          <Header {...loginInfo} />
+          <Header loginInfo={loginInfo} gistmodel={gistslist} />
         </div>
         <div className={`${styles.mainbody} container`}>
           <Route

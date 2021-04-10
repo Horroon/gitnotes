@@ -18,7 +18,7 @@ export const Gists: React.FC<GistsComponentFace> = (
   props
 ): React.ReactElement => {
   const {
-    gistState: { view, gists },
+    gistState: { view, gists,searchgistId },
     pagination,
   } = props;
   const {
@@ -27,7 +27,7 @@ export const Gists: React.FC<GistsComponentFace> = (
     buttons: { next, back },
     limit,
   } = pagination;
-
+  
   const loadmoreItem = () => {
     if (current_page < total_pages) {
       let curpage =
@@ -96,7 +96,7 @@ export const Gists: React.FC<GistsComponentFace> = (
         });
     }
   };
-  console.log('current-page', limit)
+  console.log('current-page', props)
   return (
     <div className={styles.gitscontainer}>
       <div className={styles.gridbuttoncontainer}>

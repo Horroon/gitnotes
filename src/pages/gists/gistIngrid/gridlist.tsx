@@ -6,6 +6,8 @@ import styles from "./style.module.scss";
 import { PrintFileInfo } from "../../../utilities/PrintFileInfo";
 import InfiniteScroll from "react-infinite-scroller";
 import FileContent from './gistUserFile';
+import { Link } from "react-router-dom";
+import { subpaths } from "../../../constants/paths";
 
 interface GridListFace {
   hasmore: boolean;
@@ -29,12 +31,12 @@ export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
         }
         threshold={250}
       >
-        <h4> {showRecords.length} gists</h4>
+        <h4> {showRecords.length} gist{showRecords.length>1?'s':''}</h4>
         <div className="row ">
           {showRecords.map((card: any) => {
             const FileInfo = PrintFileInfo(card.files);
             return (
-              <div className={`${styles.card} col-lg-4 my-4`}>
+              <Link to={`${subpaths.singlegist}?id=${card.id}`} className={`${styles.card} col-lg-4 my-4`}>
                 <div className={`${styles.card} card rounded-lg`}>
                   <div className="card-body">
                     <p className={styles.cardtext}>
@@ -56,7 +58,7 @@ export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

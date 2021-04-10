@@ -1,20 +1,41 @@
-import React from "react";
-import { Search } from "../search/index";
+import React, { useState } from "react";
+import {Search} from "../search/index";
 import logo from "../../assets/emumba-logo.png";
 import { UserInfo } from "../userinfo/index";
-import {loginInfoFace} from '../../constants/models.interfaces/login';
+import { loginInfoFace } from "../../constants/models.interfaces/login";
 import styles from "./style.module.scss";
+import { Link } from "react-router-dom";
+import { subpaths } from "../../constants/paths";
+import { gistStateFace } from "../../constants/models.interfaces/gists";
+import { store } from "../../models";
 
+interface HeaderFace{
+  loginInfo:loginInfoFace,
+  gistmodel:gistStateFace
+}
+export const Header: React.FC<HeaderFace> = (props): React.ReactElement => {
+  const { loginInfo:{ isLogged, userinfo}, gistmodel:{searchgistId} } = props;
 
-export const Header: React.FC<loginInfoFace> = (props): React.ReactElement => {
-    const {isLogged, userinfo} = props
+  console.log('props in header ', props)
+  const searchOnChangeHandler = (e: any) => {
+    e.preventDefault();
+    const { value } = e.target;
+    store.dispatch.gistslist.update_gist_search_id(value)
+  };
+
+  const SearchIconClickHandler = ()=>{
+    alert('I will start search soon for ' + searchgistId)
+  }
+console.log('search ', searchgistId)
   return (
     <nav className={styles.header}>
       <div className={styles.headingcontainer}>
-        <img src={logo} />
+        <Link to={subpaths.publicgists}>
+          <img src={logo} />
+        </Link>
       </div>
       <div className={styles.searchcontainer}>
-        <Search />
+        <Search value={searchgistId} onChange={searchOnChangeHandler} clickToSearchIcon={SearchIconClickHandler} />
         <div>
           <UserInfo
             {...{

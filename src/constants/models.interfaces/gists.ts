@@ -6,4 +6,5 @@ export enum gistview {
 export interface gistStateFace{
     view:gistview,
     gists:any[],
+    searchgistId:string,
 }

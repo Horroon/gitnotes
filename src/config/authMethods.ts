@@ -24,5 +24,7 @@ firebase.auth().onAuthStateChanged(user=>{
 })
 
 export const SignoutCurrentUser = ()=>firebase.auth().signOut().then(res=>{
-    store.dispatch.loginInfo.resetloginState()
+    store.dispatch.loginInfo.resetloginState();
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('access-token');
 }).catch(e=>console.log('error during signout ',e))
