@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from "react";
 import { GetGistById } from "../../logics/get-gistdatabyId";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styles from "./style.module.scss";
 import { subpaths } from "../../constants/paths";
 import { PrintFileInfo } from "../../utilities/PrintFileInfo";
@@ -51,7 +51,11 @@ function reducer(state: GistStateFace, action: ActionFace): GistStateFace {
   }
 }
 
-const SingleGistPage: React.FC<any> = () => {
+interface SingleGistFace {
+  username?: string;
+}
+const SingleGistPage: React.FC<SingleGistFace> = (props) => {
+  const { username } = props;
   const [state, setState] = useReducer(reducer, InitialState);
   const History = useHistory();
 
@@ -60,9 +64,9 @@ const SingleGistPage: React.FC<any> = () => {
     console.log("star reponse after call success ", response);
   };
 
-  const ForAGist = async (gistId:string)=>{
+  const ForAGist = async (gistId: string) => {
     const response = await ForkAGist(gistId);
-    console.log('Response after fork request', response)
+    console.log("Response after fork request", response);
   };
 
   const GetGistDetail = async (gistId: string) => {
@@ -110,13 +114,28 @@ const SingleGistPage: React.FC<any> = () => {
           </div>
           <div className={styles.giststarandfork}>
             <div className={styles.icons}>
+              {username && (
+                <>
+                <Link to={`${subpaths.editgist}?id=${state.gist.id}`}>
+                  <span className={"edit"}>
+                    <i className="fa fa-edit" />
+                    <span onClick={() => StarAGist(state.gist.id)}>Edit</span>
+                  </span>
+                </Link>
+                  <span className={"delete"}>
+                    <i className="fa fa-trash" />
+                    <span onClick={() => StarAGist(state.gist.id)}>Delete</span>
+                  </span>
+                </>
+              )}
+
               <span>
                 <i className="fa fa-star-o" />
-                <button onClick={()=>StarAGist(state.gist.id)}>1</button>
+                <button onClick={() => StarAGist(state.gist.id)}>1</button>
               </span>
               <span>
                 <i className="fa fa-code-fork" />
-                <button onClick={()=>ForAGist(state.gist.id)}>1</button>
+                <button onClick={() => ForAGist(state.gist.id)}>1</button>
               </span>
             </div>
           </div>

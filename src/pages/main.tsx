@@ -71,7 +71,7 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
             exact
             path={`${subpaths.singlegist}/`}
             >
-            <SingleGistPage />
+            <SingleGistPage username={loginInfo.userinfo.username} />
           </Route>
           <Route 
             exact
@@ -79,6 +79,14 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
           >
             <CreateGistPage />
           </Route>
+
+          <Route 
+            exact
+            path={`${subpaths.editgist}/`} 
+          >
+            <CreateGistPage />
+          </Route>
+
           <Route exact path={subpaths.gistprofile}>
             <GistProfilePage />
           </Route>

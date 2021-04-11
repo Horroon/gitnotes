@@ -4,4 +4,5 @@ export const subpaths = {
     singlegist:'/single/gist',
     creategist:'/create/gist',
     gistprofile:'/gist/profile',
+    editgist:'/edit/gist'
 };
