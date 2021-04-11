@@ -95,6 +95,18 @@ const CreateGist = () => {
     setState({ type: Properties.updateFileObject, payload: files });
   };
 
+  const MakeFileForGistCreation = (files:FileObject[])=>{
+    const TransferFilesIntoObject:any = {
+    }
+    for(const file of files){
+      TransferFilesIntoObject[file.filename] = {
+        filename: file.filename,
+      }
+      TransferFilesIntoObject.description = state.filedesc
+    }
+    return TransferFilesIntoObject
+  }
+
   const makeFileInstances = async (fileurl: string, filename: string) => {
     const filedata = await GetGistUserFile(fileurl);
     const { files } = state;
@@ -127,7 +139,6 @@ const CreateGist = () => {
   useEffect(() => {
     const splitedUrl = window.location.search.split("=");
     const gistId = splitedUrl[1];
-    debugger;
     if (gistId) {
       GetGistData(gistId);
     } else {

@@ -3,8 +3,7 @@ export const ForkAGist = async(gistId:string)=>{
     {
         method:"POST",
         headers:{
-            Accept:'application/vnd.github.v3+json',
-            'Cotent-Length':'0',
+            "Accept": "application/vnd.github.v3+json"
         }
 }).then(res=>res.json()).then(resp=>resp).catch(e=>new Error(e));
 }

@@ -1,9 +1,11 @@
 export const GiveStarToGist = async (gistId: string) => {
+  const token  = sessionStorage.getItem('access-token');
   return await fetch(`https://api.github.com/gists/${gistId}/star`, {
     method: "PUT",
     headers: {
-      Accept: "application/vnd.github.v3+json",
-      "Access-Control-Expose-Headers": "Cotent-Length",
+      "Content-Length":"0",
+      "Authorization":`${token}`,
+      "accept": "application/vnd.github.v3+json"
     },
   })
     .then((res) => res.json())

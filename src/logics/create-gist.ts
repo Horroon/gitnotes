@@ -14,6 +14,7 @@ export const CrateGistOnGit = async():Promise<any>=>{
         method:"POST",
         headers:{
             'Authorization':'bearer ' + accessToken,
+            'Accept': 'application/vnd.github.v3+json',
         },
         body:JSON.stringify(gist)
         
