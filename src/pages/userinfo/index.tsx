@@ -1,8 +1,6 @@
 import React from "react";
 import { UserInfoDropdown } from "./dropdown";
 import {store} from '../../models/index';
-import {gitHubProvider} from '../../config/authMethods';
-import SocialMediaAuth from '../../service/auth';
 import {subpaths} from '../../constants/paths/index'
 import {useHistory} from 'react-router-dom'
 import styles from "./style.module.scss";

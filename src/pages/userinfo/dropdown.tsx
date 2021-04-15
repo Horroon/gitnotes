@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {SignoutCurrentUser} from '../../config/authMethods';
+import {SignoutCurrentUser} from '../../utilities/signout';
 import { subpaths } from "../../constants/paths";
 import styles from "./style.module.scss";
 

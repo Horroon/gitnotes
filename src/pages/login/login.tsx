@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { useToasts } from "react-toast-notifications";
 import githubLogo from "../../assets/github.png";
 import styles from "./style.module.scss";
-import { gitHubProvider } from "../../config/authMethods";
-import SocialMediaAuth from "../../service/auth";
 import { Redirect } from "react-router-dom";
 import { GetGitHubAccessToken } from "../../logics/get-gitHubAccessToken";
 import { GetGitHubUser } from "../../logics/get-github-user";
@@ -48,8 +46,6 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
   const [state, setState] = useReducer(reducer, InitialState);
   const { addToast } = useToasts();
   const History = useHistory();
-
-   const LoginMethod = () => SocialMediaAuth(gitHubProvider);
 
   const { isLogged } = props;
 
