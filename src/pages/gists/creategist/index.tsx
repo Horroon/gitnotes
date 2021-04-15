@@ -154,7 +154,7 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
       });
     } else {
       setTimeout(
-        () => GetGistsUtility(isLogged, userinfo.username, History),
+        () => GetGistsUtility(isLogged, userinfo.username, History,addToast),
         2000
       );
       addToast("Gist has been created successfully", {
@@ -180,7 +180,7 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
       });
     } else {
       setTimeout(
-        () => GetGistsUtility(isLogged, userinfo.username, History),
+        () => GetGistsUtility(isLogged, userinfo.username, History, addToast),
         2000
       );
       addToast("Gist has been updated successfully", {

@@ -9,8 +9,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import { subpaths } from "../constants/paths/index";
-import { GetPublicGist } from "../logics/get-public-gists";
-import { GetAuthenticatedUserGists } from "../logics/get-authenticated-user-gists";
 import styles from "./style.module.scss";
 import { store } from "../models";
 import { Gists } from "./gists";
@@ -20,12 +18,14 @@ import CreateGistPage from "./gists/creategist/index";
 import GistProfilePage from "./gistprofile/index";
 import { GetGitHubUser } from "../logics/get-github-user";
 import {GetGistsUtility} from "../utilities/get-gist"
+import { useToasts } from "react-toast-notifications";
 
 const MainScreen: React.FC<any> = (props): React.ReactElement => {
   const { gistslist, pagination, loginInfo, Route: reduxroute } = props;
   const history = useHistory();
+  const {addToast} = useToasts()
   
-  const GetGists = useCallback((isLogged:boolean,username:string)=>GetGistsUtility(isLogged,username,history),[loginInfo.isLogged]);
+  const GetGists = useCallback((isLogged:boolean,username:string)=>GetGistsUtility(isLogged,username,history,addToast),[loginInfo.isLogged]);
 
   const getGitUser = async(token:string)=>{
     const loginresponse = await GetGitHubUser(token);

@@ -5,7 +5,7 @@ import styles from "./style.module.scss";
 import { Redirect } from "react-router-dom";
 import { GetGitHubAccessToken } from "../../logics/get-gitHubAccessToken";
 import { GetGitHubUser } from "../../logics/get-github-user";
-import { client_secret, clientId } from "./constants";
+import { GetID } from "../../logics/get-clientIdFrom-server";
 import { store } from "../../models";
 import { useHistory } from "react-router-dom";
 import { subpaths } from "../../constants/paths";
@@ -14,11 +14,14 @@ export const Properties = {
   updatecode: "UPDATE_CODE",
   loder: "LOADER",
   error: "ERROR",
+  clientId:"CLIENT_ID"
 };
 interface StateFace {
   code: string;
   loader: boolean;
   error: string;
+  clientId: string;
+  isButtonDisabled:boolean,
 }
 
 interface ActionFace {
@@ -30,6 +33,8 @@ const InitialState = {
   code: "",
   loader: false,
   error: "",
+  clientId: "",
+  isButtonDisabled:true,
 };
 const reducer = (state: StateFace, action: ActionFace): StateFace => {
   switch (action.type) {
@@ -37,6 +42,8 @@ const reducer = (state: StateFace, action: ActionFace): StateFace => {
       return { ...state, code: action.payload };
     case Properties.error:
       return { ...state, error: action.payload };
+    case Properties.clientId:
+      return { ...state, ...action.payload };
     default:
       return { ...state };
   }
@@ -50,17 +57,13 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
   const { isLogged } = props;
 
   const GetToken = async (code: string) => {
-    const tokenstring = await GetGitHubAccessToken(
-      code,
-      clientId,
-      client_secret
-    );
+    const tokenstring = await GetGitHubAccessToken(code);
     if (tokenstring.data?.login) {
       const token = tokenstring.data.login.split("&")[0].split("=")[1];
       if (token !== "bad_verification_code") {
         sessionStorage.setItem("access-token", token);
         const gituser = await GetGitHubUser(token);
-        debugger
+        debugger;
         if (gituser?.login) {
           History.push(subpaths.publicgists);
           addToast("You have successfully logged in", {
@@ -77,6 +80,13 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
     debugger;
   };
 
+  const GetClientId = async () => {
+    const id = await GetID();
+    if (typeof(id) === 'string') {
+      setState({type: Properties.clientId, payload: {isButtonDisabled: false, clientId: id}})
+    }
+  };
+
   useEffect(() => {
     console.log("url ", window.location.search);
     const code = window.location.search.split("code=")[1];
@@ -84,6 +94,8 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
       GetToken(code);
     }
   }, [state.code]);
+
+  useEffect(() => {GetClientId()},[]);
 
   console.log("state ", state);
   return !isLogged ? (
@@ -93,15 +105,13 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
           <img src={githubLogo} />
         </div>
         <div className={styles.loginButton}>
-          <button className="btn btn-success btn-md">
-            <a
-              href={`https://github.com/login/oauth/authorize?scope=gist&client_id=${clientId}&redirect_uri=http://localhost:3000/login`}
-              onClick={() => {
-                setState({ type: Properties.updatecode, payload: "" });
-              }}
-            >
+          <button className="btn btn-success btn-md" disabled={state.isButtonDisabled} onClick={()=>{
+            if(!state.isButtonDisabled){
+              window.location.href = `https://github.com/login/oauth/authorize?scope=gist&client_id=${state.clientId}&redirect_uri=http://localhost:3000/login`
+            }
+            !state.isButtonDisabled && setState({ type: Properties.updatecode, payload: "" });
+          }}>
               login
-            </a>
           </button>
         </div>
       </div>

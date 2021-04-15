@@ -1,7 +1,10 @@
-export const GetPublicGist = async()=>{
+import axios from "axios"
 
-    //const {gists} = await fetch('http://localhost:8080/gitnotes/public/gists',{method:"GET"}).then(resp=>resp.json()).then(resp=>resp).catch(e=>console.log('localserver error ', e));
-    //console.log('localhost response ', lresponse)
-    return await fetch('https://api.github.com/gists/public',{method:"GET"}).then(res=>res.json()).then(resp=>resp).catch(e=>new Error(e));
-    //return gists
+export const GetPublicGist = async()=>{
+    try{
+        const publicgists = await axios.get(`http://localhost:8080/gitnotes/public/gists`).then(res=>res.data).catch(e=>console.log(e))
+        return publicgists?.data
+    }catch(e){
+        throw new Error(e)
+    }
 }

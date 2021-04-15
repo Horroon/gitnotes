@@ -1,3 +1,10 @@
+import axios from "axios";
+
 export const GetAuthenticatedUserGists = async(username:string)=>{
-    return await fetch(`https://api.github.com/users/${username}/gists`,{method:"GET"}).then(res=>res.json()).then(resp=>resp).catch(e=>new Error(e));
+    try{
+        const usergists = await axios.get(`http://localhost:8080/gitnotes/user/gist?username=${username}`).then(res=>res.data).catch(e=>console.log(e))
+        return usergists?.data
+    }catch(e){
+        throw new Error(e)
+    }
 }
