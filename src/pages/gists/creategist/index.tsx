@@ -6,10 +6,10 @@ import { GetGistById } from "../../../logics/get-gist-byid";
 import { subpaths } from "../../../constants/paths";
 import { PrintFileInfo } from "../../../utilities/PrintFileInfo";
 import { GetGistUserFile } from "../../../logics/get-gistuser-file";
-import { connect } from "react-redux";
 import { loginInfoFace } from "../../../constants/models.interfaces/login";
 import { GetGistsUtility } from "../../../utilities/get-gist";
 import { useToasts } from "react-toast-notifications";
+import { UpdateGistOnGit } from "../../../logics/update-gist";
 
 const Properties = {
   filedesc: "File_Desc",
@@ -67,8 +67,7 @@ const reducer = (state: StateFace, action: ActionFace): StateFace => {
 };
 
 const CreateGist: React.FC<loginInfoFace> = (props) => {
-
-  const { isLogged,userinfo } = props;
+  const { isLogged, userinfo } = props;
   const [state, setState] = useReducer(reducer, InitialState);
   const History = useHistory();
   const { addToast } = useToasts();
@@ -144,29 +143,60 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
     }
   };
 
-  const SendRequestToCreateGist = async() => {
-    const files  = MakeFilesForGistCreation(state.files);
-    const newGist = {
-      public:true,
-      description: state.filedesc,
-      files:files
+  const SendRequestToCreateGist = async () => {
+    const files = MakeFilesForGistCreation(state.files);
+
+    const resp = await CrateGistOnGit(true, state.filedesc, files);
+    if (resp?.documentation_url) {
+      addToast("Something went wrong during creating your gist", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      setTimeout(
+        () => GetGistsUtility(isLogged, userinfo.username, History),
+        2000
+      );
+      addToast("Gist has been created successfully", {
+        appearance: "success",
+        autoDismiss: true,
+      });
     }
-    const resp = await CrateGistOnGit(true, state.filedesc,files);
-    if(resp){
-      setTimeout(()=>GetGistsUtility(isLogged,userinfo.username,History),2000)
-      addToast('Gist has been created successfully',{appearance:'success',autoDismiss:true})
-    }
-    console.log('newgist became ', newGist)
-    debugger
   };
 
-  const HandleSubmitButton = ()=>{
-    if(!state.isToEdit){
-      SendRequestToCreateGist()
-    }else if(state.isToEdit){
-      alert('you will create gist soon ')
+  const SendRequestToUpdateGist = async () => {
+    const files = MakeFilesForGistCreation(state.files);
+    const updatedgist = await UpdateGistOnGit(
+      state.editableGistId,
+      true,
+      state.filedesc,
+      files
+    );
+    debugger;
+    if (updatedgist?.documentation_url) {
+      addToast("Something went wrong during updating your gist", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } else {
+      setTimeout(
+        () => GetGistsUtility(isLogged, userinfo.username, History),
+        2000
+      );
+      addToast("Gist has been updated successfully", {
+        appearance: "success",
+        autoDismiss: true,
+      });
     }
-  }
+  };
+
+  const HandleSubmitButton = () => {
+    if (!state.isToEdit) {
+      SendRequestToCreateGist();
+    } else if (state.isToEdit) {
+      SendRequestToUpdateGist();
+    }
+  };
   useEffect(() => {
     if (isLogged) {
       const splitedUrl = window.location.search.split("=");
@@ -179,9 +209,8 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
           payload: [{ index: 0, filename: "", filecontent: "" }],
         });
       }
-    }
-    else{
-      History.push(subpaths.publicgists)
+    } else {
+      History.push(subpaths.publicgists);
     }
   }, [isLogged]);
 
@@ -238,16 +267,12 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
             </button>
           </div>
           <div>
-            {state.isToEdit ? (
-              <button className="btn btn-success btn-sm">Update</button>
-            ) : (
-              <button
-                className="btn btn-success btn-sm"
-                onClick={HandleSubmitButton}
-              >
-                Create gist
-              </button>
-            )}
+            <button
+              className="btn btn-success btn-sm"
+              onClick={HandleSubmitButton}
+            >
+              {state.isToEdit ? "Update" : "Create gist"}
+            </button>
           </div>
         </div>
       </div>
@@ -255,4 +280,4 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
   );
 };
 
-export default (CreateGist);
+export default CreateGist;
