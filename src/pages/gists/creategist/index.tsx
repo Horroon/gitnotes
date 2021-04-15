@@ -145,20 +145,30 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
 
   const SendRequestToCreateGist = async () => {
     const files = MakeFilesForGistCreation(state.files);
-
-    const resp = await CrateGistOnGit(true, state.filedesc, files);
-    if (resp?.documentation_url) {
-      addToast("Something went wrong during creating your gist", {
+    try {
+      const resp = await CrateGistOnGit(true, state.filedesc, files);
+      debugger
+      if (resp?.documentation_url) {
+        addToast("Something went wrong during creating your gist", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      } else if(resp?.url){
+        setTimeout(
+          () => GetGistsUtility(isLogged, userinfo.username, History, addToast),
+          2000
+        );
+        addToast("Gist has been created successfully", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      }
+      else{
+        throw new Error('something bad happened')
+      }
+    } catch (e) {
+      addToast('Error occured', {
         appearance: "error",
-        autoDismiss: true,
-      });
-    } else {
-      setTimeout(
-        () => GetGistsUtility(isLogged, userinfo.username, History,addToast),
-        2000
-      );
-      addToast("Gist has been created successfully", {
-        appearance: "success",
         autoDismiss: true,
       });
     }
