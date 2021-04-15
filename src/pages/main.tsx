@@ -18,28 +18,30 @@ import { Login } from "./login/login";
 import SingleGistPage from "./single-gist-page/gist";
 import CreateGistPage from "./gists/creategist/index";
 import GistProfilePage from "./gistprofile/index";
-
+import { GetGitHubUser } from "../logics/get-github-user";
+import {GetGistsUtility} from "../utilities/get-gist"
 
 const MainScreen: React.FC<any> = (props): React.ReactElement => {
   const { gistslist, pagination, loginInfo, Route: reduxroute } = props;
   const history = useHistory();
-  const GetGists = async () => {
-    const username = sessionStorage.getItem('username');
-    const gists = loginInfo.isLogged && username ? await GetAuthenticatedUserGists(username) : await GetPublicGist();
-    if (gists) {
-      const totalPages = Math.ceil(gists.length / pagination.limit.pagesize);
-      store.dispatch.gistslist.update_gist(gists);
-      store.dispatch.pagination.update_total_pages({
-        total_pages: totalPages,
-      });
-      store.dispatch.pagination.update_button_status({back: false, next: totalPages > 1 ? true : false})
-      store.dispatch.pagination.update_show_records(gists.slice(0, 10))
-      store.dispatch.Route.updateCurrentRoute(subpaths.publicgists);
-      history.push(subpaths.publicgists);
+  
+  const GetGists = useCallback((isLogged:boolean,username:string)=>GetGistsUtility(isLogged,username,history),[loginInfo.isLogged]);
+
+  const getGitUser = async(token:string)=>{
+    const loginresponse = await GetGitHubUser(token);
+    if(loginresponse?.login){
+      GetGists(true,loginresponse.login)
     }
-  };
+  }
   useEffect(() => {
-    GetGists();
+      const token = sessionStorage.getItem("access-token");
+      const username = sessionStorage.getItem("username") || '';
+      if(token){
+        getGitUser(token);
+      }
+      if(!username){
+        GetGists(false,'')
+      }
   }, [loginInfo.isLogged]);
 
   return (
@@ -49,10 +51,10 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
           <Header loginInfo={loginInfo} gistmodel={gistslist} />
         </div>
         <div className={`${styles.mainbody} container`}>
-          <Route
+          {/* <Route
             path="/"
             render={() => <Redirect to={subpaths.publicgists} />}
-          />
+          /> */}
           <Route exact path={subpaths.publicgists}>
             <Gists {...{ gistState: gistslist, pagination }} />
           </Route>
@@ -67,24 +69,15 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
           >
             <Login {...loginInfo} />
           </Route>
-          <Route
-            exact
-            path={`${subpaths.singlegist}/`}
-            >
+          <Route exact path={`${subpaths.singlegist}/`}>
             <SingleGistPage username={loginInfo.userinfo.username} />
           </Route>
-          <Route 
-            exact
-            path={subpaths.creategist} 
-          >
-            <CreateGistPage />
+          <Route exact path={subpaths.creategist}>
+            <CreateGistPage {...loginInfo} />
           </Route>
 
-          <Route 
-            exact
-            path={`${subpaths.editgist}/`} 
-          >
-            <CreateGistPage />
+          <Route exact path={`${subpaths.editgist}/`}>
+            <CreateGistPage  {...loginInfo} />
           </Route>
 
           <Route exact path={subpaths.gistprofile}>

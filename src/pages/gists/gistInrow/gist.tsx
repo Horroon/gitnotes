@@ -49,7 +49,7 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
           </tr>
         </thead>
         <tbody className={styles.tbody}>
-          {recordToShow.map((gist) => {
+          {recordToShow.length ? recordToShow.map((gist) => {
             const fileInfo = PrintFileInfo(gist.files);
             return (
                 <tr onClick={()=>{
@@ -89,7 +89,7 @@ export const GistInRows: React.FC<ListFace> = (props): React.ReactElement => {
                   </td>
                 </tr>
             );
-          })}
+          }):<tr><h6>No Record</h6></tr>}
         </tbody>
       </table>
     </div>

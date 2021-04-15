@@ -36,7 +36,7 @@ export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
       >
         <h4> {recordsOnScreen.length} gist{recordsOnScreen.length>1?'s':''}</h4>
         <div className="row ">
-          {recordsOnScreen.map((card: any) => {
+          {recordsOnScreen.length ? recordsOnScreen.map((card: any) => {
             const FileInfo = PrintFileInfo(card.files);
             return (
               <Link to={`${subpaths.singlegist}?id=${card.id}`} className={`${styles.card} col-lg-4 my-4`}>
@@ -63,7 +63,7 @@ export const GridList: React.FC<GridListFace> = (props): React.ReactElement => {
                 </div>
               </Link>
             );
-          })}
+          }): <h6>No record</h6>}
         </div>
       </InfiniteScroll>
     </div>

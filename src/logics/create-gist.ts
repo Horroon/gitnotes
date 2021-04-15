@@ -1,22 +1,17 @@
-export const CrateGistOnGit = async():Promise<any>=>{
-    var gist = {
-        "description": "Avatars",
-        "public": true,
-        "files": {
-            "check.txt": {
-                "content": "Avatars list..."
-            }
-        }
-    };
-    const accessToken  = sessionStorage.getItem('access-token')
-    return await fetch(`https://api.github.com/gists`,
-    {
-        method:"POST",
-        headers:{
-            'Authorization':'bearer ' + accessToken,
-            'Accept': 'application/vnd.github.v3+json',
-        },
-        body:JSON.stringify(gist)
-        
-    }).then(res=>res.json()).then(resp=> resp).catch(e=>console.log('error during fetching user file ', e))
-}
+
+export const CrateGistOnGit = async (status:boolean,description:string, files:object): Promise<any> => {
+
+  const accessToken = sessionStorage.getItem("access-token");
+  const newGist = await fetch(`https://api.github.com/gists`, {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + accessToken,
+    },
+    body: JSON.stringify({description,public:status,files}),
+  })
+    .then((res) => res.json())
+    .then((resp) => resp)
+    .catch((e) => console.log("error during fetching user file ", e));
+    debugger
+  return newGist;
+};

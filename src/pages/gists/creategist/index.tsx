@@ -6,6 +6,10 @@ import { GetGistById } from "../../../logics/get-gist-byid";
 import { subpaths } from "../../../constants/paths";
 import { PrintFileInfo } from "../../../utilities/PrintFileInfo";
 import { GetGistUserFile } from "../../../logics/get-gistuser-file";
+import { connect } from "react-redux";
+import { loginInfoFace } from "../../../constants/models.interfaces/login";
+import { GetGistsUtility } from "../../../utilities/get-gist";
+import { useToasts } from "react-toast-notifications";
 
 const Properties = {
   filedesc: "File_Desc",
@@ -62,9 +66,13 @@ const reducer = (state: StateFace, action: ActionFace): StateFace => {
   }
 };
 
-const CreateGist = () => {
+const CreateGist: React.FC<loginInfoFace> = (props) => {
+
+  const { isLogged,userinfo } = props;
   const [state, setState] = useReducer(reducer, InitialState);
   const History = useHistory();
+  const { addToast } = useToasts();
+
   const InputHandler = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -95,17 +103,16 @@ const CreateGist = () => {
     setState({ type: Properties.updateFileObject, payload: files });
   };
 
-  const MakeFileForGistCreation = (files:FileObject[])=>{
-    const TransferFilesIntoObject:any = {
-    }
-    for(const file of files){
+  const MakeFilesForGistCreation = (files: FileObject[]) => {
+    const TransferFilesIntoObject: any = {};
+
+    for (const file of files) {
       TransferFilesIntoObject[file.filename] = {
-        filename: file.filename,
-      }
-      TransferFilesIntoObject.description = state.filedesc
+        content: file.filecontent,
+      };
     }
-    return TransferFilesIntoObject
-  }
+    return TransferFilesIntoObject;
+  };
 
   const makeFileInstances = async (fileurl: string, filename: string) => {
     const filedata = await GetGistUserFile(fileurl);
@@ -121,7 +128,7 @@ const CreateGist = () => {
 
   const GetGistData = async (gistid: string) => {
     const response = await GetGistById(gistid);
-    const username = sessionStorage.getItem('username');
+    const username = sessionStorage.getItem("username");
     if (response?.id && username) {
       setState({ type: Properties.gist, payload: response });
       setState({ type: Properties.isToEdit, payload: true });
@@ -136,20 +143,49 @@ const CreateGist = () => {
       History.push(subpaths.publicgists);
     }
   };
-  useEffect(() => {
-    const splitedUrl = window.location.search.split("=");
-    const gistId = splitedUrl[1];
-    if (gistId) {
-      GetGistData(gistId);
-    } else {
-      setState({
-        type: Properties.updateFileObject,
-        payload: [{ index: 0, filename: "", filecontent: "" }],
-      });
-    }
-  }, []);
 
-  console.log("state ", state);
+  const SendRequestToCreateGist = async() => {
+    const files  = MakeFilesForGistCreation(state.files);
+    const newGist = {
+      public:true,
+      description: state.filedesc,
+      files:files
+    }
+    const resp = await CrateGistOnGit(true, state.filedesc,files);
+    if(resp){
+      setTimeout(()=>GetGistsUtility(isLogged,userinfo.username,History),2000)
+      addToast('Gist has been created successfully',{appearance:'success',autoDismiss:true})
+    }
+    console.log('newgist became ', newGist)
+    debugger
+  };
+
+  const HandleSubmitButton = ()=>{
+    if(!state.isToEdit){
+      SendRequestToCreateGist()
+    }else if(state.isToEdit){
+      alert('you will create gist soon ')
+    }
+  }
+  useEffect(() => {
+    if (isLogged) {
+      const splitedUrl = window.location.search.split("=");
+      const gistId = splitedUrl[1];
+      if (gistId) {
+        GetGistData(gistId);
+      } else {
+        setState({
+          type: Properties.updateFileObject,
+          payload: [{ index: 0, filename: "", filecontent: "" }],
+        });
+      }
+    }
+    else{
+      History.push(subpaths.publicgists)
+    }
+  }, [isLogged]);
+
+  console.log("state ", props);
   return (
     <div className={styles.creategistcontainer}>
       <div className={styles.formgroupwrapper}>
@@ -207,7 +243,7 @@ const CreateGist = () => {
             ) : (
               <button
                 className="btn btn-success btn-sm"
-                onClick={CrateGistOnGit}
+                onClick={HandleSubmitButton}
               >
                 Create gist
               </button>
@@ -219,4 +255,4 @@ const CreateGist = () => {
   );
 };
 
-export default CreateGist;
+export default (CreateGist);
