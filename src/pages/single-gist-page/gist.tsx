@@ -8,6 +8,8 @@ import moment from "moment";
 import { GetGistUserFile } from "../../logics/get-gistuser-file";
 import { GiveStarToGist } from "../../logics/give-star-to-gist";
 import { ForkAGist } from "../../logics/fork-gist";
+import { DeleteGistOnGit } from "../../logics/delete-gitgist";
+import { useToasts } from "react-toast-notifications";
 
 const Properties = {
   gist: "GIST",
@@ -58,12 +60,21 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
   const { username } = props;
   const [state, setState] = useReducer(reducer, InitialState);
   const History = useHistory();
+  const { addToast } = useToasts();
 
   const StarAGist = async (gistId: string) => {
     const response = await GiveStarToGist(gistId);
     console.log("star reponse after call success ", response);
   };
 
+  const DeleteAGist = async(gistId:string)=>{
+    const deletedgistresponse = await DeleteGistOnGit(gistId)
+    if(!deletedgistresponse){
+      addToast('Gist has been deleted successfully',{appearance:'warning', autoDismiss:true})
+      History.push(subpaths.publicgists)
+    }
+    debugger
+  }
   const ForAGist = async (gistId: string) => {
     const response = await ForkAGist(gistId);
     console.log("Response after fork request", response);
@@ -117,25 +128,25 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
               {username && (
                 <>
                 <Link to={`${subpaths.editgist}?id=${state.gist.id}`}>
-                  <span className={"edit"}>
+                  <span className={"edit"} onClick={() => StarAGist(state.gist.id)}>
                     <i className="fa fa-edit" />
-                    <span onClick={() => StarAGist(state.gist.id)}>Edit</span>
+                    <span>Edit</span>
                   </span>
                 </Link>
-                  <span className={"delete"}>
+                  <span className={"delete"} onClick={() => DeleteAGist(state.gist.id)}>
                     <i className="fa fa-trash" />
-                    <span onClick={() => StarAGist(state.gist.id)}>Delete</span>
+                    <span >Delete</span>
                   </span>
                 </>
               )}
 
-              <span>
+              <span  onClick={() => StarAGist(state.gist.id)}>
                 <i className="fa fa-star-o" />
-                <button onClick={() => StarAGist(state.gist.id)}>1</button>
+                <button>1</button>
               </span>
-              <span>
-                <i className="fa fa-code-fork" />
-                <button onClick={() => ForAGist(state.gist.id)}>1</button>
+              <span  onClick={() => ForAGist(state.gist.id)}>
+                <i className="fa fa-code-fork"  />
+                <button>1</button>
               </span>
             </div>
           </div>
