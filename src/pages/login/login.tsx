@@ -63,7 +63,6 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
       if (token !== "bad_verification_code") {
         sessionStorage.setItem("access-token", token);
         const gituser = await GetGitHubUser(token);
-        debugger;
         if (gituser?.login) {
           History.push(subpaths.publicgists);
           addToast("You have successfully logged in", {
@@ -77,7 +76,6 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
         addToast(token, { appearance: "error" });
       }
     }
-    debugger;
   };
 
   const GetClientId = async () => {

@@ -148,7 +148,6 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
     const files = MakeFilesForGistCreation(state.files);
     try {
       const resp = await CrateGistOnGit(true, state.filedesc, files);
-      debugger
       if (resp?.documentation_url) {
         addToast("Something went wrong during creating your gist", {
           appearance: "error",
@@ -183,7 +182,6 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
       state.filedesc,
       files
     );
-    debugger;
     if (updatedgist?.documentation_url) {
       addToast("Something went wrong during updating your gist", {
         appearance: "error",

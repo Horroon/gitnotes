@@ -78,7 +78,6 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
       });
       History.push(subpaths.publicgists);
     }
-    debugger;
   };
   const ForkGist = async (gistId: string) => {
     if (username) {

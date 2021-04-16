@@ -9,7 +9,5 @@ export const ForkAGist = async (gistId: string) => {
     })
     .then((resp) => resp.data)
     .catch((e) => console.log("error during fork a gist ", e));
-  console.log("fork response ", response);
-  debugger;
   return response;
 };

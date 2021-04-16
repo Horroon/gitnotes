@@ -14,5 +14,4 @@ export const CrateGistOnGit = async (
     .then((res) => res.data)
     .catch((e) => console.log("error during creating new gist ", e));
   return newData;
-  debugger
 };

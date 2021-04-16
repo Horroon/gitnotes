@@ -17,7 +17,6 @@ export const GetGistsUtility = async (
       (isLogged && username && scope === gistscope.user)
         ? await GetAuthenticatedUserGists(username)
         : await GetPublicGist();
-    debugger;
     if (gists) {
       const totalPages = Math.ceil(gists.length / pagination.limit.pagesize);
       store.dispatch.gistslist.update_gist(gists);
