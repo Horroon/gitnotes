@@ -12,7 +12,7 @@ export const Search: React.FC<SearchFace> = (props): React.ReactElement => {
   return (
     <div className={styles.searchmaincomponent}>
       <div className={styles.searchinputcontainer}>
-        <input placeholder="Search Notes..." value={value} onChange={onChange} />
+        <input placeholder="Search Notes by username " value={value} onChange={onChange} />
       </div>
       <div className={styles.searchbutton} onClick={clickToSearchIcon}>
         <i className="fa fa-search" />
