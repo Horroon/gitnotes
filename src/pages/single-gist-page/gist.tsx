@@ -105,20 +105,27 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
   };
 
   const GetGistDetail = async (gistId: string) => {
-    const response = await GetGistById(gistId);
-    const fileinfo = PrintFileInfo(response.files);
+    try {
+      const response = await GetGistById(gistId);
+      const fileinfo = PrintFileInfo(response.files);
 
-    const getFile = await GetGistUserFile(fileinfo[0].fileUrl);
-    setState({
-      type: Properties.fileinfo,
-      payload: {
-        filename: fileinfo[0].filename,
-        fileurl: fileinfo[0].fileUrl,
-        filetext: getFile,
-      },
-    });
-    setState({ type: Properties.gist, payload: response });
-    setState({ type: Properties.loader, payload: false });
+      const getFile = await GetGistUserFile(fileinfo[0].fileUrl);
+      setState({
+        type: Properties.fileinfo,
+        payload: {
+          filename: fileinfo[0].filename,
+          fileurl: fileinfo[0].fileUrl,
+          filetext: getFile,
+        },
+      });
+      setState({ type: Properties.gist, payload: response });
+      setState({ type: Properties.loader, payload: false });
+    } catch (e) {
+      addToast("Something went wrong! ", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
   };
 
   useEffect(() => {

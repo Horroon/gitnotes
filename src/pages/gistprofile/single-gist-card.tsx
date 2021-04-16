@@ -3,23 +3,35 @@ import styles from "./style.module.scss";
 import moment from "moment";
 import { PrintFileInfo } from "../../utilities/PrintFileInfo";
 import { GetGistUserFile } from "../../logics/get-gistuser-file";
+import { useToasts } from "react-toast-notifications";
 
 const dummyurl =
   "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
 
-export const SingleGistCard =memo((props:any) => {
-    const [filecontent, setFileContent] = useState('');
-    const {gist:{owner,files, created_at}, name} = props;
-    const fileinfo = PrintFileInfo(files);
+export const SingleGistCard = memo((props: any) => {
+  const [filecontent, setFileContent] = useState("");
+  const { addToast } = useToasts();
+  const {
+    gist: { owner, files, created_at },
+    name,
+  } = props;
+  const fileinfo = PrintFileInfo(files);
 
-    const GetFileContent = async()=>{
-        const content = await GetGistUserFile(fileinfo[0].fileUrl);
-        setFileContent(content)
+  const GetFileContent = async () => {
+    try {
+      const content = await GetGistUserFile(fileinfo[0].fileUrl);
+      setFileContent(content);
+    } catch (e) {
+      addToast("Something went wrong! ", {
+        appearance: "error",
+        autoDismiss: true,
+      });
     }
+  };
 
-    useEffect(()=>{
-        GetFileContent()
-    },[]);
+  useEffect(() => {
+    GetFileContent();
+  }, []);
 
   return (
     <div className={styles.singlegistcontainer}>
@@ -58,13 +70,11 @@ export const SingleGistCard =memo((props:any) => {
               <i className="fa fa-file" /> &nbsp; {fileinfo[0].filename}
             </div>
             <div className="card-body">
-                <code>
-                    {filecontent ? filecontent : 'wait...'}
-                </code>
+              <code>{filecontent ? filecontent : "wait..."}</code>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-},);
+  );
+});
