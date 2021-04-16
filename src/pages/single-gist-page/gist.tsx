@@ -9,12 +9,14 @@ import { GetGistUserFile } from "../../logics/get-gistuser-file";
 import { GiveStarToGist } from "../../logics/give-star-to-gist";
 import { ForkAGist } from "../../logics/fork-gist";
 import { DeleteGistOnGit } from "../../logics/delete-gitgist";
+import {GetGistForks} from "../../logics/get-gist-forks";
 import { useToasts } from "react-toast-notifications";
 
 const Properties = {
   gist: "GIST",
   loader: "Loader",
   fileinfo: "FileInfo",
+  updatefork:"UpdateForks",
 };
 
 interface GistStateFace {
@@ -25,6 +27,7 @@ interface GistStateFace {
     fileurl: string;
     filetext: any;
   };
+  forks:any
 }
 interface ActionFace {
   type: string;
@@ -38,6 +41,7 @@ const InitialState = {
     fileurl: "",
     filetext: "",
   },
+  forks:[]
 };
 
 function reducer(state: GistStateFace, action: ActionFace): GistStateFace {
@@ -48,6 +52,8 @@ function reducer(state: GistStateFace, action: ActionFace): GistStateFace {
       return { ...state, loader: action.payload };
     case Properties.fileinfo:
       return { ...state, fileinfo: action.payload };
+    case Properties.updatefork:
+      return {...state, forks: action.payload};
     default:
       return state;
   }
@@ -110,6 +116,9 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
       const fileinfo = PrintFileInfo(response.files);
 
       const getFile = await GetGistUserFile(fileinfo[0].fileUrl);
+      const gistForks = await GetGistForks(response?.forks_url);
+      debugger
+      setState({type: Properties.updatefork, payload: gistForks})
       setState({
         type: Properties.fileinfo,
         payload: {
@@ -176,11 +185,11 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
 
               <span onClick={() => StarAGist(state.gist.id)}>
                 <i className="fa fa-star-o" />
-                <button>1</button>
+                <button>0</button>
               </span>
               <span onClick={() => ForkGist(state.gist.id)}>
                 <i className="fa fa-code-fork" />
-                <button>1</button>
+                <button>{state.forks.length}</button>
               </span>
             </div>
           </div>
