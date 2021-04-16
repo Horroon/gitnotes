@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SERVER_PATH } from "../config/index";
 
 export const UpdateGistOnGit = async (
   gistId: string,
@@ -14,8 +15,9 @@ export const UpdateGistOnGit = async (
       description,
       files,
     };
+    const URL = SERVER_PATH + '/update/gist'
     const updatedGist = await axios
-      .post(`http://localhost:8080/gitnotes/update/gist`, data, {
+      .post(URL, data, {
         headers: {
           Authorization: accessToken,
         },

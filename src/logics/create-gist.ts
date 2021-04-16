@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SERVER_PATH } from "../config/index";
 
 export const CrateGistOnGit = async (
   status: boolean,
@@ -7,8 +8,9 @@ export const CrateGistOnGit = async (
 ): Promise<any> => {
   const accessToken = sessionStorage.getItem("access-token");
   const body = { description, status, files };
+  const URL = SERVER_PATH + "/create/gist";
   const newData = await axios
-    .post("http://localhost:8080/gitnotes/create/gist", body, {
+    .post(URL, body, {
       headers: { authorization: accessToken },
     })
     .then((res) => res.data)

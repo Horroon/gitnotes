@@ -1,8 +1,12 @@
 import axios from "axios";
 import { store } from "../models/index";
+import { SERVER_PATH } from "../config/index";
+
 export const GetGitHubUser = async (token: string): Promise<any> => {
+
+  const URL = SERVER_PATH + '/git/user/info';
   const user = await axios
-    .get("http://localhost:8080/gitnotes/git/user/info", {
+    .get(URL, {
       headers: {
         Authorization: token,
       },

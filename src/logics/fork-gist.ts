@@ -1,9 +1,11 @@
 import axios from "axios";
+import { SERVER_PATH } from "../config/index";
 
 export const ForkAGist = async (gistId: string) => {
   const token = sessionStorage.getItem("access-token");
+  const URL = SERVER_PATH + `/fork/gist?gistId=${gistId}`;
   const response = await axios
-    .post(`http://localhost:8080/gitnotes/fork/gist?gistId=${gistId}`, "", {
+    .post(URL, "", {
       method: "POST",
       headers: { Authorization: token },
     })
