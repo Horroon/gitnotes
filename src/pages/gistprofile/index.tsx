@@ -25,7 +25,7 @@ const GistProfilePage = (props:any) => {
         }else {
             History.push(subpaths.publicgists)
         }
-    },[]);
+    },[username]);
 
   return (
     <div className={styles.gistprofilecontainer}>
