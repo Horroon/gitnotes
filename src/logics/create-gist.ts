@@ -6,7 +6,7 @@ export const CrateGistOnGit = async (
   files: object
 ): Promise<any> => {
   const accessToken = sessionStorage.getItem("access-token");
-  const body = { description, public: status, files };
+  const body = { description, status, files };
   const newData = await axios
     .post("http://localhost:8080/gitnotes/create/gist", body, {
       headers: { authorization: accessToken },

@@ -10,6 +10,7 @@ import { loginInfoFace } from "../../../constants/models.interfaces/login";
 import { GetGistsUtility } from "../../../utilities/get-gist";
 import { useToasts } from "react-toast-notifications";
 import { UpdateGistOnGit } from "../../../logics/update-gist";
+import { gistscope } from "../../../constants/models.interfaces/gists";
 
 const Properties = {
   filedesc: "File_Desc",
@@ -155,7 +156,7 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
         });
       } else if(resp?.url){
         setTimeout(
-          () => GetGistsUtility(isLogged, userinfo.username, History, addToast),
+          () => GetGistsUtility(isLogged, userinfo.username, History, addToast, gistscope.user),
           2000
         );
         addToast("Gist has been created successfully", {
@@ -190,7 +191,7 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
       });
     } else {
       setTimeout(
-        () => GetGistsUtility(isLogged, userinfo.username, History, addToast),
+        () => GetGistsUtility(isLogged, userinfo.username, History, addToast,gistscope.user),
         2000
       );
       addToast("Gist has been updated successfully", {

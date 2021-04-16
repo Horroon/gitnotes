@@ -25,7 +25,7 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
   const history = useHistory();
   const {addToast} = useToasts()
   
-  const GetGists = useCallback((isLogged:boolean,username:string)=>GetGistsUtility(isLogged,username,history,addToast),[loginInfo.isLogged]);
+  const GetGists = useCallback((isLogged:boolean,username:string)=>GetGistsUtility(isLogged,username,history,addToast,gistslist.scope),[loginInfo.isLogged, gistslist.scope]);
 
   const getGitUser = async(token:string)=>{
     const loginresponse = await GetGitHubUser(token);
@@ -42,7 +42,7 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
       if(!username){
         GetGists(false,'')
       }
-  }, [loginInfo.isLogged]);
+  }, [loginInfo.isLogged, gistslist.scope]);
 
   return (
     <Router>

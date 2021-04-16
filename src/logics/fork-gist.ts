@@ -1,9 +1,15 @@
-export const ForkAGist = async(gistId:string)=>{
-    return await fetch(` https://api.github.com/gists/${gistId}/forks`,
-    {
-        method:"POST",
-        headers:{
-            "Accept": "application/vnd.github.v3+json"
-        }
-}).then(res=>res.json()).then(resp=>resp).catch(e=>new Error(e));
-}
+import axios from "axios";
+
+export const ForkAGist = async (gistId: string) => {
+  const token = sessionStorage.getItem("access-token");
+  const response = await axios
+    .post(`http://localhost:8080/gitnotes/fork/gist?gistId=${gistId}`, "", {
+      method: "POST",
+      headers: { Authorization: token },
+    })
+    .then((resp) => resp.data)
+    .catch((e) => console.log("error during fork a gist ", e));
+  console.log("fork response ", response);
+  debugger;
+  return response;
+};

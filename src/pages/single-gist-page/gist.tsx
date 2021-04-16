@@ -67,17 +67,37 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
     console.log("star reponse after call success ", response);
   };
 
-  const DeleteAGist = async(gistId:string)=>{
-    const deletedgistresponse = await DeleteGistOnGit(gistId)
-    if(!deletedgistresponse){
-      addToast('Gist has been deleted successfully',{appearance:'warning', autoDismiss:true})
-      History.push(subpaths.publicgists)
+  const DeleteAGist = async (gistId: string) => {
+    const deletedgistresponse = await DeleteGistOnGit(gistId);
+    if (!deletedgistresponse) {
+      addToast("Gist has been deleted successfully", {
+        appearance: "warning",
+        autoDismiss: true,
+      });
+      History.push(subpaths.publicgists);
     }
-    debugger
-  }
-  const ForAGist = async (gistId: string) => {
-    const response = await ForkAGist(gistId);
-    console.log("Response after fork request", response);
+    debugger;
+  };
+  const ForkGist = async (gistId: string) => {
+    try {
+      const response = await ForkAGist(gistId);
+      if (response?.id) {
+        addToast("You have successfully forked the gist", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      }
+      if (response?.errors?.length) {
+        addToast(response.message, { appearance: "error", autoDismiss: true });
+      }
+    } catch (e) {
+      console.log(e);
+      addToast("Sorry! something went wrong", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      debugger
+    }
   };
 
   const GetGistDetail = async (gistId: string) => {
@@ -104,7 +124,7 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
     } else {
       History.push(subpaths.publicgists);
     }
-  }, []);
+  }, [window.location]);
   return !state.loader ? (
     <div className={styles.singlegistcontainer}>
       <div className={styles.gistbody}>
@@ -125,27 +145,30 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
           </div>
           <div className={styles.giststarandfork}>
             <div className={styles.icons}>
-              {username && (
+              {state?.gist.owner.login === username && (
                 <>
-                <Link to={`${subpaths.editgist}?id=${state.gist.id}`}>
-                  <span className={"edit"} onClick={() => StarAGist(state.gist.id)}>
-                    <i className="fa fa-edit" />
-                    <span>Edit</span>
-                  </span>
-                </Link>
-                  <span className={"delete"} onClick={() => DeleteAGist(state.gist.id)}>
+                  <Link to={`${subpaths.editgist}?id=${state.gist.id}`}>
+                    <span className={"edit"}>
+                      <i className="fa fa-edit" />
+                      <span>Edit</span>
+                    </span>
+                  </Link>
+                  <span
+                    className={"delete"}
+                    onClick={() => DeleteAGist(state.gist.id)}
+                  >
                     <i className="fa fa-trash" />
-                    <span >Delete</span>
+                    <span>Delete</span>
                   </span>
                 </>
               )}
 
-              <span  onClick={() => StarAGist(state.gist.id)}>
+              <span onClick={() => StarAGist(state.gist.id)}>
                 <i className="fa fa-star-o" />
                 <button>1</button>
               </span>
-              <span  onClick={() => ForAGist(state.gist.id)}>
-                <i className="fa fa-code-fork"  />
+              <span onClick={() => ForkGist(state.gist.id)}>
+                <i className="fa fa-code-fork" />
                 <button>1</button>
               </span>
             </div>

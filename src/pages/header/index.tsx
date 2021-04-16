@@ -6,7 +6,7 @@ import { loginInfoFace } from "../../constants/models.interfaces/login";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import { subpaths } from "../../constants/paths";
-import { gistStateFace } from "../../constants/models.interfaces/gists";
+import { gistscope, gistStateFace } from "../../constants/models.interfaces/gists";
 import { store } from "../../models";
 
 interface HeaderFace{
@@ -29,7 +29,7 @@ console.log('search ', searchgistId)
   return (
     <nav className={styles.header}>
       <div className={styles.headingcontainer}>
-        <Link to={subpaths.publicgists}>
+        <Link to={subpaths.publicgists} onClick={()=>store.dispatch.gistslist.change_gists_scope(gistscope.public)}>
           <img src={logo} />
         </Link>
       </div>

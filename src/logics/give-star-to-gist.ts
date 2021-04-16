@@ -4,9 +4,7 @@ export const GiveStarToGist = async (gistId: string) => {
     method: "PUT",
     headers: {
       "Content-Length":"0",
-      "Authorization":'token ' + token,
-      "accept": "application/vnd.github.v3+json",
-      "gist_id":gistId
+      "Authorization":'Bearer ' + token
     },
   })
     .then((res) => res.json())
