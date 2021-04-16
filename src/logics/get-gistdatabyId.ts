@@ -1,3 +1,6 @@
-export const GetGistById = async(id:string):Promise<any>=>{
-    return await fetch(`https://api.github.com/gists/${id}`).then(res=>res.json()).then(resp=> resp).catch(e=>console.log('error during fetching user file ', e))
+import axios from "axios";
+
+export const GetGistById = async(gistId:string)=>{
+    const response = await axios.get(`http://localhost:8080/gitnotes/get/gist?gistId=${gistId}`).then(res=>res.data).catch(e=>new Error(e))
+    return response
 }

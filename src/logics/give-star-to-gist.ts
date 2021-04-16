@@ -4,7 +4,8 @@ export const GiveStarToGist = async (gistId: string) => {
     method: "PUT",
     headers: {
       "Content-Length":"0",
-      "Authorization":'Bearer ' + token
+      "Authorization":'Bearer ' + token,
+      "gist_id": "gist_id"
     },
   })
     .then((res) => res.json())

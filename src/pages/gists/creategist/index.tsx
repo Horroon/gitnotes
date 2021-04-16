@@ -2,7 +2,7 @@ import React, { useEffect, useReducer } from "react";
 import { useHistory } from "react-router-dom";
 import styles from "./style.module.scss";
 import { CrateGistOnGit } from "../../../logics/create-gist";
-import { GetGistById } from "../../../logics/get-gist-byid";
+import { GetGistById } from "../../../logics/get-gistdatabyId";
 import { subpaths } from "../../../constants/paths";
 import { PrintFileInfo } from "../../../utilities/PrintFileInfo";
 import { GetGistUserFile } from "../../../logics/get-gistuser-file";

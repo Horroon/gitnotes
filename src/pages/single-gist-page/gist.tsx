@@ -63,8 +63,10 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
   const { addToast } = useToasts();
 
   const StarAGist = async (gistId: string) => {
-    const response = await GiveStarToGist(gistId);
-    console.log("star reponse after call success ", response);
+    if (username) {
+      const response = await GiveStarToGist(gistId);
+      console.log("star reponse after call success ", response);
+    }
   };
 
   const DeleteAGist = async (gistId: string) => {
@@ -79,24 +81,27 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
     debugger;
   };
   const ForkGist = async (gistId: string) => {
-    try {
-      const response = await ForkAGist(gistId);
-      if (response?.id) {
-        addToast("You have successfully forked the gist", {
-          appearance: "success",
+    if (username) {
+      try {
+        const response = await ForkAGist(gistId);
+        if (response?.id) {
+          addToast("You have successfully forked the gist", {
+            appearance: "success",
+            autoDismiss: true,
+          });
+        }
+        if (response?.errors?.length) {
+          addToast(response.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
+        }
+      } catch (e) {
+        addToast("Sorry! something went wrong", {
+          appearance: "error",
           autoDismiss: true,
         });
       }
-      if (response?.errors?.length) {
-        addToast(response.message, { appearance: "error", autoDismiss: true });
-      }
-    } catch (e) {
-      console.log(e);
-      addToast("Sorry! something went wrong", {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      debugger
     }
   };
 
