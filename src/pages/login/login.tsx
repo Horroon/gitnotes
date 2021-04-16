@@ -70,7 +70,6 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
         } else {
           addToast("login failed", { appearance: "error" });
         }
-        console.log("gituser response ", gituser);
       } else {
         addToast(token, { appearance: "error" });
       }
@@ -85,7 +84,6 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
   };
 
   useEffect(() => {
-    console.log("url ", window.location.search);
     const code = window.location.search.split("code=")[1];
     if (code && code !== state.code) {
       GetToken(code);
@@ -94,7 +92,6 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
 
   useEffect(() => {GetClientId()},[]);
 
-  console.log("state ", state);
   return !isLogged ? (
     <div className={styles.logincontainer}>
       <div className={`${styles.card} card`}>

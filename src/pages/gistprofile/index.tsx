@@ -16,7 +16,6 @@ const GistProfilePage = (props:any) => {
     const GetUserGists = async(uname:string)=>{
         const response = await GetAuthenticatedUserGists(uname);
         setgists(response)
-        console.log('user response ', response)
     }
 
     useEffect(()=>{

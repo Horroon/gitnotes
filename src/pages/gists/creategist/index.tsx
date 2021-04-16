@@ -223,7 +223,6 @@ const CreateGist: React.FC<loginInfoFace> = (props) => {
     }
   }, [isLogged]);
 
-  console.log("state ", props);
   return (
     <div className={styles.creategistcontainer}>
       <div className={styles.formgroupwrapper}>

@@ -43,7 +43,6 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
       }
   }, [loginInfo.isLogged, gistslist.scope]);
 
-  console.log('props ', props)
   return (
     <Router>
       <div className={styles.mainscreencontainer}>

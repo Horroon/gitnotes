@@ -71,7 +71,6 @@ const SingleGistPage: React.FC<SingleGistFace> = (props) => {
   const StarAGist = async (gistId: string) => {
     if (username) {
       const response = await GiveStarToGist(gistId);
-      console.log("star reponse after call success ", response);
     }
   };
 

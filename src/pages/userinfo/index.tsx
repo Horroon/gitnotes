@@ -18,7 +18,6 @@ export const UserInfo: React.FC<UserInfoInterface> = (
   props
 ): React.ReactElement => {
   
-  console.log('current user ')
   const history = useHistory()
   const { userinfo ,isLogged,dispatch} = props;
   const {profile, isdropdownOpened} = userinfo;

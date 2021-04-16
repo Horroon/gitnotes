@@ -16,7 +16,6 @@ interface HeaderFace{
 export const Header: React.FC<HeaderFace> = (props): React.ReactElement => {
   const { loginInfo:{ isLogged, userinfo}, gistmodel:{searchgistId},dispatch } = props;
 
-  console.log('props in header ', props)
   const searchOnChangeHandler = (e: any) => {
     e.preventDefault();
     const { value } = e.target;
@@ -25,7 +24,6 @@ export const Header: React.FC<HeaderFace> = (props): React.ReactElement => {
 
   const SearchIconClickHandler = ()=>{
   }
-console.log('search ', searchgistId)
   return (
     <nav className={styles.header}>
       <div className={styles.headingcontainer}>
