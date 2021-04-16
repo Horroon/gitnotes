@@ -102,7 +102,7 @@ export const Login: React.FC<any> = (props): React.ReactElement => {
           <img src={githubLogo} />
         </div>
         <div className={styles.loginButton}>
-          <button className="btn btn-success btn-md" disabled={state.isButtonDisabled} onClick={()=>{
+          <button className="btn btn-success btn-md btn-block" disabled={state.isButtonDisabled} onClick={()=>{
             if(!state.isButtonDisabled){
               window.location.href = `https://github.com/login/oauth/authorize?scope=gist&client_id=${state.clientId}&redirect_uri=http://localhost:3000/login`
             }
