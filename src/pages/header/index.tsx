@@ -7,20 +7,20 @@ import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import { subpaths } from "../../constants/paths";
 import { gistscope, gistStateFace } from "../../constants/models.interfaces/gists";
-import { store } from "../../models";
 
 interface HeaderFace{
   loginInfo:loginInfoFace,
-  gistmodel:gistStateFace
+  gistmodel:gistStateFace,
+  dispatch:any,
 }
 export const Header: React.FC<HeaderFace> = (props): React.ReactElement => {
-  const { loginInfo:{ isLogged, userinfo}, gistmodel:{searchgistId} } = props;
+  const { loginInfo:{ isLogged, userinfo}, gistmodel:{searchgistId},dispatch } = props;
 
   console.log('props in header ', props)
   const searchOnChangeHandler = (e: any) => {
     e.preventDefault();
     const { value } = e.target;
-    store.dispatch.gistslist.update_gist_search_id(value)
+    dispatch.gistslist.update_gist_search_id(value)
   };
 
   const SearchIconClickHandler = ()=>{
@@ -29,7 +29,7 @@ console.log('search ', searchgistId)
   return (
     <nav className={styles.header}>
       <div className={styles.headingcontainer}>
-        <Link to={subpaths.publicgists} onClick={()=>store.dispatch.gistslist.change_gists_scope(gistscope.public)}>
+        <Link to={subpaths.publicgists} onClick={()=>dispatch.gistslist.change_gists_scope(gistscope.public)}>
           <img src={logo} />
         </Link>
       </div>
@@ -40,6 +40,7 @@ console.log('search ', searchgistId)
             {...{
               isLogged: isLogged,
               userinfo: userinfo,
+              dispatch,
             }}
           />
         </div>

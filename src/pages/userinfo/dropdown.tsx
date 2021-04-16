@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { SignoutCurrentUser } from "../../utilities/signout";
 import { subpaths } from "../../constants/paths";
 import styles from "./style.module.scss";
-import { store } from "../../models";
 import { gistscope } from "../../constants/models.interfaces/gists";
 
 interface UserInfoDropdownFace {
@@ -12,7 +11,8 @@ interface UserInfoDropdownFace {
     profile: string;
     name: string;
     isdropdownOpened: boolean;
-  };
+  },
+  dispatch:any
 }
 
 export const UserInfoDropdown: React.FC<UserInfoDropdownFace> = (
@@ -21,9 +21,10 @@ export const UserInfoDropdown: React.FC<UserInfoDropdownFace> = (
   const {
     userinfo: { name },
     isOpened,
+    dispatch,
   } = props;
   const ChangeScope = () => {
-    store.dispatch.gistslist.change_gists_scope(gistscope.user);
+    dispatch.gistslist.change_gists_scope(gistscope.user);
   };
   return isOpened ? (
     <div className={styles.userdropdown}>

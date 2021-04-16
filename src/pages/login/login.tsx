@@ -6,7 +6,6 @@ import { Redirect } from "react-router-dom";
 import { GetGitHubAccessToken } from "../../logics/get-gitHubAccessToken";
 import { GetGitHubUser } from "../../logics/get-github-user";
 import { GetID } from "../../logics/get-clientIdFrom-server";
-import { store } from "../../models";
 import { useHistory } from "react-router-dom";
 import { subpaths } from "../../constants/paths";
 

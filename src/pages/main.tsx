@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import { subpaths } from "../constants/paths/index";
 import styles from "./style.module.scss";
-import { store } from "../models";
 import { Gists } from "./gists";
 import { Login } from "./login/login";
 import SingleGistPage from "./single-gist-page/gist";
@@ -21,7 +20,7 @@ import {GetGistsUtility} from "../utilities/get-gist"
 import { useToasts } from "react-toast-notifications";
 
 const MainScreen: React.FC<any> = (props): React.ReactElement => {
-  const { gistslist, pagination, loginInfo, Route: reduxroute } = props;
+  const { gistslist, pagination, loginInfo, Route: reduxroute, dispatch} = props;
   const history = useHistory();
   const {addToast} = useToasts()
   
@@ -44,19 +43,16 @@ const MainScreen: React.FC<any> = (props): React.ReactElement => {
       }
   }, [loginInfo.isLogged, gistslist.scope]);
 
+  console.log('props ', props)
   return (
     <Router>
       <div className={styles.mainscreencontainer}>
         <div className={styles.headercontainer}>
-          <Header loginInfo={loginInfo} gistmodel={gistslist} />
+          <Header loginInfo={loginInfo} gistmodel={gistslist} dispatch={dispatch} />
         </div>
         <div className={`${styles.mainbody} container`}>
-          {/* <Route
-            path="/"
-            render={() => <Redirect to={subpaths.publicgists} />}
-          /> */}
           <Route exact path={subpaths.publicgists}>
-            <Gists {...{ gistState: gistslist, pagination }} />
+            <Gists {...{ gistState: gistslist, pagination,dispatch }} />
           </Route>
           <Route
             exact

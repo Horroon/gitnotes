@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { GistInRows } from "./gistInrow/gist";
 import { GridList } from "./gistIngrid/gridlist";
 import styles from "./style.module.scss";
-import { store } from "../../models/index";
 import {
   gistview,
   gistStateFace,
 } from "../../constants/models.interfaces/gists";
 import { paginationStateFace } from "../../constants/models.interfaces/pagination";
 import { PaginationContainer } from "./paginationcontainer/index";
-import { SearchRecordById } from "../../utilities/filterdatabyId";
 
 interface GistsComponentFace {
   gistState: gistStateFace;
   pagination: paginationStateFace;
+  dispatch:any,
 }
 export const Gists: React.FC<GistsComponentFace> = (
   props
@@ -21,6 +20,7 @@ export const Gists: React.FC<GistsComponentFace> = (
   const {
     gistState: { view, gists,searchgistId },
     pagination,
+    dispatch,
   } = props;
   const {
     total_pages,
@@ -35,29 +35,29 @@ export const Gists: React.FC<GistsComponentFace> = (
         current_page < total_pages ? current_page + 1 : current_page;
       let newgistis = gists.slice(0, curpage * limit.pagesize);
       setTimeout(() => {
-        store.dispatch.pagination.update_show_records(newgistis)
-        store.dispatch.pagination.update_current_page({
+        dispatch.pagination.update_show_records(newgistis)
+        dispatch.pagination.update_current_page({
           current_page: curpage,
         });
         
         current_page < total_pages &&
-        store.dispatch.pagination.update_limit({
+        dispatch.pagination.update_limit({
           from: limit.to,
           to: limit.to + limit.pagesize,
           hasmore: true,
         });
 
-        current_page + 1 < total_pages && store.dispatch.pagination.update_button_status({
+        current_page + 1 < total_pages && dispatch.pagination.update_button_status({
           back: true,
           next: true,
         });
       }, 1000);
     } else {
-      store.dispatch.pagination.update_hasmore_gist(false);
-      store.dispatch.pagination.update_current_page({
+      dispatch.pagination.update_hasmore_gist(false);
+      dispatch.pagination.update_current_page({
         current_page: total_pages,
       });
-      store.dispatch.pagination.update_button_status({back: true, next: false})
+      dispatch.pagination.update_button_status({back: true, next: false})
     }
   };
 
@@ -65,15 +65,15 @@ export const Gists: React.FC<GistsComponentFace> = (
     if (next) {
       const newpageIndex =
         current_page < total_pages ? current_page + 1 : current_page;
-      store.dispatch.pagination.goToNext({ current_page: newpageIndex });
+      dispatch.pagination.goToNext({ current_page: newpageIndex });
       current_page < total_pages &&
-        store.dispatch.pagination.update_limit({
+      dispatch.pagination.update_limit({
           from: limit.to,
           to: limit.to + limit.pagesize,
           hasmore: true,
         });
       newpageIndex == total_pages &&
-        store.dispatch.pagination.update_button_status({
+      dispatch.pagination.update_button_status({
           back: true,
           next: false,
         });
@@ -83,25 +83,25 @@ export const Gists: React.FC<GistsComponentFace> = (
   const BackPage = () => {
     if (back) {
       const newpageIndex = current_page > 1 ? current_page - 1 : current_page;
-      store.dispatch.pagination.goToNext({ current_page: newpageIndex });
+      dispatch.pagination.goToNext({ current_page: newpageIndex });
       
       newpageIndex == 1 &&
-        store.dispatch.pagination.update_button_status({
+        dispatch.pagination.update_button_status({
           back: false,
           next: true,
         });
 
-      newpageIndex === total_pages && store.dispatch.pagination.update_button_status({
+      newpageIndex === total_pages && dispatch.pagination.update_button_status({
         back: false,
         next: false,
       });
 
-      newpageIndex < total_pages && store.dispatch.pagination.update_button_status({
+      newpageIndex < total_pages && dispatch.pagination.update_button_status({
         next: true,
         back: newpageIndex > 1 ? true : false
       })
       current_page > 1 &&
-        store.dispatch.pagination.update_limit({
+        dispatch.pagination.update_limit({
           from: limit.from - limit.pagesize,
           to: limit.from,
           hasmore: false,
@@ -114,12 +114,12 @@ export const Gists: React.FC<GistsComponentFace> = (
       <div className={styles.gridbuttoncontainer}>
         <i
           className={`${view === gistview.grid && "selected"} fa fa-th-large`}
-          onClick={() => store.dispatch.gistslist.changegistview(gistview.grid)}
+          onClick={() => dispatch.gistslist.changegistview(gistview.grid)}
         />{" "}
         <span>|</span>{" "}
         <i
           className={`${view === gistview.row && "selected"} fa fa-list-ul`}
-          onClick={() => store.dispatch.gistslist.changegistview(gistview.row)}
+          onClick={() => dispatch.gistslist.changegistview(gistview.row)}
         />
       </div>
       <div className={styles.datacontainer}>
